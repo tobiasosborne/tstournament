@@ -1,0 +1,123 @@
+{
+  "encoding_version": 1,
+  "seed": 20260426,
+  "problem": "09-pslq",
+  "cases": [
+    {
+      "id": "ln_2_3_6",
+      "expected": {
+        "relation": [
+          0,
+          1,
+          1,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "min_poly_sqrt2",
+      "expected": {
+        "relation": [
+          2,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "min_poly_sqrt3",
+      "expected": {
+        "relation": [
+          -3,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "min_poly_cbrt2",
+      "expected": {
+        "relation": [
+          2,
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "golden_ratio",
+      "expected": {
+        "relation": [
+          1,
+          1,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "machin_pi",
+      "expected": {
+        "relation": [
+          1,
+          -16,
+          4
+        ]
+      }
+    },
+    {
+      "id": "quartic_min_poly",
+      "expected": {
+        "relation": [
+          1,
+          1,
+          0,
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "id": "no_rel_zeta3_ln23",
+      "expected": {
+        "relation": null
+      }
+    },
+    {
+      "id": "no_rel_pi_e",
+      "expected": {
+        "relation": null
+      }
+    },
+    {
+      "id": "no_rel_pi_e_lns",
+      "expected": {
+        "relation": null
+      }
+    },
+    {
+      "id": "no_rel_sqrt23",
+      "expected": {
+        "relation": null
+      }
+    },
+    {
+      "id": "no_rel_random_0",
+      "expected": {
+        "relation": null
+      }
+    },
+    {
+      "id": "no_rel_random_1",
+      "expected": {
+        "relation": null
+      }
+    },
+    {
+      "id": "no_rel_random_2",
+      "expected": {
+        "relation": null
+      }
+    }
+  ]
+}

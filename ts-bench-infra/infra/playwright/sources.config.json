@@ -1,0 +1,156 @@
+{
+  "_comment": "Source list per problem. Each entry: {problem, id, file, doi, notes}. The fetcher visits https://doi.org/<doi> in headed Chromium, waits for the publisher landing page, extracts the PDF URL via the citation_pdf_url meta tag (and per-publisher fallbacks), and downloads with a proper Referer. Update this file rather than hard-coding URLs.",
+
+  "papers": [
+    {
+      "problem": "01-fft", "id": "P01",
+      "file": "Cooley_Tukey_MathComp_19_297_1965.pdf",
+      "doi":  "10.1090/S0025-5718-1965-0178586-1",
+      "notes": "Cooley & Tukey, Math. Comp. 19 (1965), 297–301."
+    },
+    {
+      "problem": "01-fft", "id": "P02",
+      "file": "Frigo_Johnson_FFTW3_ProcIEEE_93_2005.pdf",
+      "doi":  "10.1109/JPROC.2004.840301",
+      "notes": "Frigo & Johnson, Proc. IEEE 93 (2005)."
+    },
+
+    {
+      "problem": "02-ntt", "id": "P01",
+      "file": "Pollard_FFT_FiniteField_MathComp_25_1971.pdf",
+      "doi":  "10.1090/S0025-5718-1971-0301966-0",
+      "notes": "Pollard, Math. Comp. 25 (1971), 365–374."
+    },
+    {
+      "problem": "02-ntt", "id": "P02",
+      "file": "Bluestein_LinearFiltering_IEEE_AU_18_1970.pdf",
+      "doi":  "10.1109/TAU.1970.1162132",
+      "notes": "Bluestein, IEEE Trans. AU 18 (1970)."
+    },
+    {
+      "problem": "02-ntt", "id": "P03",
+      "file": "Montgomery_ModularMultiplication_MathComp_44_1985.pdf",
+      "doi":  "10.1090/S0025-5718-1985-0777282-X",
+      "notes": "Montgomery, Math. Comp. 44 (1985), 519–521."
+    },
+
+    {
+      "problem": "03-suffix-automaton", "id": "P01",
+      "file": "Blumer_etal_SmallestAutomaton_TCS_40_1985.pdf",
+      "doi":  "10.1016/0304-3975(85)90157-9",
+      "notes": "Blumer et al., TCS 40 (1985), 31–55."
+    },
+    {
+      "problem": "03-suffix-automaton", "id": "P02",
+      "file": "Crochemore_Verin_CDAWG_LNCS_1261_1997.pdf",
+      "doi":  "10.1007/3-540-63220-4_55",
+      "notes": "Crochemore & Vérin, LNCS 1261 (1997)."
+    },
+
+    {
+      "problem": "04-schreier-sims", "id": "P01",
+      "file": "Sims_PermutationGroups_1970.pdf",
+      "doi":  "10.1016/B978-0-08-012975-4.50020-5",
+      "notes": "Sims 1970, Pergamon book chapter — may be paywalled and not have a free PDF endpoint; may need manual fetch."
+    },
+
+    {
+      "problem": "05-lll", "id": "P01",
+      "file": "Lenstra_Lenstra_Lovasz_FactoringPolys_MathAnn_261_1982.pdf",
+      "doi":  "10.1007/BF01457454",
+      "notes": "Lenstra, Lenstra, Lovász, Math. Ann. 261 (1982), 515–534."
+    },
+    {
+      "problem": "05-lll", "id": "P02",
+      "file": "Stehle_LLL_FloatingPoint_2010.pdf",
+      "doi":  "10.1007/978-3-642-02295-1_5",
+      "notes": "Stehlé, in 'The LLL Algorithm' (Springer, 2010), Ch. 5."
+    },
+
+    {
+      "problem": "06-stoer-wagner", "id": "P01",
+      "file": "Stoer_Wagner_SimpleMinCut_JACM_44_1997.pdf",
+      "doi":  "10.1145/263867.263872",
+      "notes": "Stoer & Wagner, J. ACM 44 (1997), 585–591."
+    },
+
+    {
+      "problem": "07-blossom", "id": "P01",
+      "file": "Edmonds_PathsTreesFlowers_CanadJMath_17_1965.pdf",
+      "doi":  "10.4153/CJM-1965-045-4",
+      "notes": "Edmonds, Canad. J. Math. 17 (1965), 449–467."
+    },
+    {
+      "problem": "07-blossom", "id": "P02",
+      "file": "Galil_MaxMatching_ACMCompSurv_18_1986.pdf",
+      "doi":  "10.1145/6462.6502",
+      "notes": "Galil, ACM Comput. Surv. 18 (1986), 23–38."
+    },
+    {
+      "problem": "07-blossom", "id": "P03",
+      "file": "Kolmogorov_BlossomV_MathProgComp_1_2009.pdf",
+      "doi":  "10.1007/s12532-009-0002-8",
+      "notes": "Kolmogorov, Math. Prog. Comput. 1 (2009)."
+    },
+
+    {
+      "problem": "08-buchberger", "id": "P01",
+      "file": "Buchberger_Thesis_1965_English_JSC_2006.pdf",
+      "doi":  "10.1016/j.jsc.2005.09.007",
+      "notes": "Buchberger 1965 thesis, English translation in J. Symb. Comput. 41 (2006)."
+    },
+    {
+      "problem": "08-buchberger", "id": "P02",
+      "file": "Buchberger_TwoCriteria_EUROSAM_1979.pdf",
+      "doi":  "10.1007/3-540-09519-5_52",
+      "notes": "Buchberger, EUROSAM '79. (DOI suffix corrected from _55 to _52; _55 in LNCS 72 is Fitch's 'Symbolic Algebra to Physics', not Buchberger's two-criteria paper.)"
+    },
+
+    {
+      "problem": "09-pslq", "id": "P01",
+      "file": "Ferguson_Bailey_Arno_PSLQ_MathComp_68_1999.pdf",
+      "doi":  "10.1090/S0025-5718-99-00995-3",
+      "notes": "Ferguson, Bailey, Arno, Math. Comp. 68 (1999), 351–369."
+    },
+    {
+      "problem": "09-pslq", "id": "P02",
+      "file": "Bailey_Broadhurst_ParallelPSLQ_MathComp_70_2001.pdf",
+      "doi":  "10.1090/S0025-5718-00-01278-3",
+      "notes": "Bailey & Broadhurst, Math. Comp. 70 (2001), 1719–1736."
+    },
+
+    {
+      "problem": "10-risch", "id": "P01",
+      "file": "Risch_IntegrationFiniteTerms_TransAMS_139_1969.pdf",
+      "doi":  "10.1090/S0002-9947-1969-0237477-8",
+      "notes": "Risch, Trans. AMS 139 (1969), 167–189."
+    },
+    {
+      "problem": "10-risch", "id": "P02",
+      "file": "Risch_SolutionFiniteTerms_BullAMS_76_1970.pdf",
+      "doi":  "10.1090/S0002-9904-1970-12454-5",
+      "notes": "Risch, Bull. AMS 76 (1970), 605–608. (DOI suffix corrected from 12455-7 to 12454-5; the latter is the actual article ID.)"
+    },
+    {
+      "problem": "10-risch", "id": "P03",
+      "file": "Bronstein_SymbolicIntegrationTutorial_ISSAC_1998.pdf",
+      "url":  "http://www-sop.inria.fr/cafe/Manuel.Bronstein/publications/issac98.pdf",
+      "notes": "Bronstein, ISSAC '98 course notes. (Hosted on the author's INRIA homepage; no DOI. The 'doi' previously listed here, 10.1145/281508.281611, resolves to a different ISSAC '98 paper — Egner & Pueschel, 'Solving Puzzles related to Permutation Groups' — and was wrong.)"
+    }
+  ],
+
+  "books": [
+    {"_comment": "Books are NOT downloaded by the fetcher. Add them manually to problems/<NN>/sources/ from your library / institutional Springer-link / etc., and list them in REFERENCES.md."},
+    {"problem": "01-fft", "title": "Van Loan, Computational Frameworks for the FFT, SIAM (1992), Ch. 1–2"},
+    {"problem": "02-ntt", "title": "Crandall & Pomerance, Prime Numbers, 2nd ed., Springer (2005), Ch. 9"},
+    {"problem": "03-suffix-automaton", "title": "Crochemore-Hancart-Lecroq, Algorithms on Strings, CUP (2007), Ch. 6"},
+    {"problem": "04-schreier-sims", "title": "Holt-Eick-O'Brien, Handbook of Computational Group Theory, CRC (2005), Ch. 4"},
+    {"problem": "04-schreier-sims", "title": "Seress, Permutation Group Algorithms, CUP (2003), Ch. 4–5"},
+    {"problem": "05-lll", "title": "Cohen, A Course in Computational Algebraic Number Theory, Springer GTM 138 (1993), §2.6"},
+    {"problem": "06-stoer-wagner", "title": "Mehlhorn-Sanders, Algorithms and Data Structures, Springer (2008), Ch. 12"},
+    {"problem": "07-blossom", "title": "Schrijver, Combinatorial Optimization, Springer (2003), §24"},
+    {"problem": "08-buchberger", "title": "Cox-Little-O'Shea, Ideals Varieties and Algorithms, 4th ed., Springer (2015), Ch. 2 §§7–10"},
+    {"problem": "09-pslq", "title": "Bailey & Borwein, Experimental Mathematics in Action, A K Peters (2007), Ch. 6"},
+    {"problem": "10-risch", "title": "Bronstein, Symbolic Integration I, 2nd ed., Springer (2005), Ch. 5–6"}
+  ]
+}

@@ -1,0 +1,43 @@
+# --- Copyrighted source materials (papers, books) ---
+# Never redistribute upstream PDFs. References list DOIs / URLs only.
+*.pdf
+
+# Derivative works of those PDFs (markdown / OCR extractions)
+ts-bench-infra/.marker-out/
+ts-bench-infra/.marker-staging/
+ts-bench-infra/.quarantine/
+
+# Playwright runtime artifacts (browser profile / Chromium cache from fetcher)
+.browser-profile/
+**/.playwright-cache/
+
+# --- Build / dependency artifacts ---
+node_modules/
+package-lock.json.tmp
+.pnpm-store/
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+.python-version
+
+# --- Editor / OS noise ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# --- Project-local Claude Code state ---
+# (Lean4 helpers landed here as accidental cross-project leftover.)
+.claude/
+
+# --- Runtime / scratch ---
+*.log
+.cache/
+tmp/
+.tmp/

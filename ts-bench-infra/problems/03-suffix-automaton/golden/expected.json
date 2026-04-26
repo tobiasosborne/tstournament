@@ -1,0 +1,351 @@
+{
+  "encoding_version": 1,
+  "seed": 20260426,
+  "problem": "03-suffix-automaton",
+  "cases": [
+    {
+      "id": "edge_empty",
+      "expected": {
+        "num_states": 1,
+        "num_distinct_substrings": "0",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "edge_single_a",
+      "expected": {
+        "num_states": 2,
+        "num_distinct_substrings": "1",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "edge_two_aa",
+      "expected": {
+        "num_states": 3,
+        "num_distinct_substrings": "2",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "edge_two_ab",
+      "expected": {
+        "num_states": 3,
+        "num_distinct_substrings": "3",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "edge_three_aaa",
+      "expected": {
+        "num_states": 4,
+        "num_distinct_substrings": "3",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "edge_abracadabra",
+      "expected": {
+        "num_states": 12,
+        "num_distinct_substrings": "54",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "edge_all_equal_10",
+      "expected": {
+        "num_states": 11,
+        "num_distinct_substrings": "10",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "edge_all_equal_50",
+      "expected": {
+        "num_states": 51,
+        "num_distinct_substrings": "50",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "edge_alphabet_first",
+      "expected": {
+        "num_states": 11,
+        "num_distinct_substrings": "55",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "edge_palindrome_8",
+      "expected": {
+        "num_states": 12,
+        "num_distinct_substrings": "32",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "lcs_empty_t",
+      "expected": {
+        "num_states": 12,
+        "num_distinct_substrings": "54",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "lcs_self",
+      "expected": {
+        "num_states": 12,
+        "num_distinct_substrings": "54",
+        "lcs_length": 11
+      }
+    },
+    {
+      "id": "lcs_disjoint_alpha",
+      "expected": {
+        "num_states": 5,
+        "num_distinct_substrings": "4",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "lcs_simple",
+      "expected": {
+        "num_states": 6,
+        "num_distinct_substrings": "15",
+        "lcs_length": 3
+      }
+    },
+    {
+      "id": "lcs_one_char_match",
+      "expected": {
+        "num_states": 5,
+        "num_distinct_substrings": "10",
+        "lcs_length": 2
+      }
+    },
+    {
+      "id": "lcs_full_overlap",
+      "expected": {
+        "num_states": 7,
+        "num_distinct_substrings": "21",
+        "lcs_length": 6
+      }
+    },
+    {
+      "id": "rand_small_0_n9_m12",
+      "expected": {
+        "num_states": 11,
+        "num_distinct_substrings": "44",
+        "lcs_length": 2
+      }
+    },
+    {
+      "id": "rand_small_1_n1_m14",
+      "expected": {
+        "num_states": 2,
+        "num_distinct_substrings": "1",
+        "lcs_length": 1
+      }
+    },
+    {
+      "id": "rand_small_2_n18_m5",
+      "expected": {
+        "num_states": 23,
+        "num_distinct_substrings": "164",
+        "lcs_length": 1
+      }
+    },
+    {
+      "id": "rand_small_3_n19_m7",
+      "expected": {
+        "num_states": 24,
+        "num_distinct_substrings": "185",
+        "lcs_length": 2
+      }
+    },
+    {
+      "id": "rand_small_4_n20_m11",
+      "expected": {
+        "num_states": 25,
+        "num_distinct_substrings": "205",
+        "lcs_length": 1
+      }
+    },
+    {
+      "id": "rand_small_5_n9_m11",
+      "expected": {
+        "num_states": 11,
+        "num_distinct_substrings": "44",
+        "lcs_length": 2
+      }
+    },
+    {
+      "id": "rand_small_6_n12_m4",
+      "expected": {
+        "num_states": 16,
+        "num_distinct_substrings": "71",
+        "lcs_length": 1
+      }
+    },
+    {
+      "id": "rand_small_7_n17_m6",
+      "expected": {
+        "num_states": 21,
+        "num_distinct_substrings": "150",
+        "lcs_length": 1
+      }
+    },
+    {
+      "id": "rand_small_8_n3_m9",
+      "expected": {
+        "num_states": 4,
+        "num_distinct_substrings": "6",
+        "lcs_length": 1
+      }
+    },
+    {
+      "id": "rand_small_9_n15_m6",
+      "expected": {
+        "num_states": 20,
+        "num_distinct_substrings": "116",
+        "lcs_length": 1
+      }
+    },
+    {
+      "id": "rand_small_10_n19_m6",
+      "expected": {
+        "num_states": 24,
+        "num_distinct_substrings": "185",
+        "lcs_length": 1
+      }
+    },
+    {
+      "id": "rand_small_11_n1_m7",
+      "expected": {
+        "num_states": 2,
+        "num_distinct_substrings": "1",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "rand_small_12_n9_m1",
+      "expected": {
+        "num_states": 11,
+        "num_distinct_substrings": "44",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "rand_small_13_n15_m1",
+      "expected": {
+        "num_states": 18,
+        "num_distinct_substrings": "118",
+        "lcs_length": 0
+      }
+    },
+    {
+      "id": "rand_small_14_n20_m6",
+      "expected": {
+        "num_states": 25,
+        "num_distinct_substrings": "203",
+        "lcs_length": 1
+      }
+    },
+    {
+      "id": "rand_medium_0_n50",
+      "expected": {
+        "num_states": 69,
+        "num_distinct_substrings": "1245",
+        "lcs_length": 2
+      }
+    },
+    {
+      "id": "rand_medium_1_n100",
+      "expected": {
+        "num_states": 130,
+        "num_distinct_substrings": "4966",
+        "lcs_length": 2
+      }
+    },
+    {
+      "id": "rand_medium_2_n150",
+      "expected": {
+        "num_states": 186,
+        "num_distinct_substrings": "11188",
+        "lcs_length": 3
+      }
+    },
+    {
+      "id": "rand_medium_3_n200",
+      "expected": {
+        "num_states": 248,
+        "num_distinct_substrings": "19903",
+        "lcs_length": 2
+      }
+    },
+    {
+      "id": "rand_binary_100_0",
+      "expected": {
+        "num_states": 187,
+        "num_distinct_substrings": "4527",
+        "lcs_length": 10
+      }
+    },
+    {
+      "id": "rand_binary_100_1",
+      "expected": {
+        "num_states": 190,
+        "num_distinct_substrings": "4524",
+        "lcs_length": 12
+      }
+    },
+    {
+      "id": "rand_binary_100_2",
+      "expected": {
+        "num_states": 182,
+        "num_distinct_substrings": "4532",
+        "lcs_length": 12
+      }
+    },
+    {
+      "id": "fibonacci_150",
+      "expected": {
+        "num_states": 151,
+        "num_distinct_substrings": "5606",
+        "lcs_length": 142
+      }
+    },
+    {
+      "id": "rand_large_0_n1000",
+      "expected": {
+        "num_states": 1344,
+        "num_distinct_substrings": "499026",
+        "lcs_length": 4
+      }
+    },
+    {
+      "id": "rand_large_1_n5000",
+      "expected": {
+        "num_states": 6277,
+        "num_distinct_substrings": "12492529",
+        "lcs_length": 5
+      }
+    },
+    {
+      "id": "stress_n10000_m5000",
+      "expected": {
+        "num_states": 12793,
+        "num_distinct_substrings": "49983131",
+        "lcs_length": 5
+      }
+    },
+    {
+      "id": "stress_self_n10000",
+      "expected": {
+        "num_states": 12793,
+        "num_distinct_substrings": "49983131",
+        "lcs_length": 10000
+      }
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "encoding_version": 1,
+  "seed": 20260426,
+  "problem": "10-risch",
+  "cases": [
+    {
+      "id": "poly_zero",
+      "input": {
+        "integrand": "0",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "poly_const",
+      "input": {
+        "integrand": "5",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "poly_x",
+      "input": {
+        "integrand": "x",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "poly_x2_plus_1",
+      "input": {
+        "integrand": "x**2 + 1",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "poly_cubic",
+      "input": {
+        "integrand": "x**3 - 2*x + 7",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "rat_one_over_x",
+      "input": {
+        "integrand": "1/x",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "rat_log_arg",
+      "input": {
+        "integrand": "(2*x + 1)/(x**2 + x + 1)",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "rat_partial_frac",
+      "input": {
+        "integrand": "1/(x*(x + 1))",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "rat_x_over_1px2",
+      "input": {
+        "integrand": "x/(1 + x**2)",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "exp_x",
+      "input": {
+        "integrand": "exp(x)",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "x_exp_x",
+      "input": {
+        "integrand": "x*exp(x)",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "log_x",
+      "input": {
+        "integrand": "log(x)",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "log_over_x",
+      "input": {
+        "integrand": "log(x)/x",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "x_exp_x2",
+      "input": {
+        "integrand": "x*exp(x**2)",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "recip_x_log_x",
+      "input": {
+        "integrand": "1/(x*log(x))",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "nonelem_exp_x2",
+      "input": {
+        "integrand": "exp(x**2)",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "nonelem_exp_over_x",
+      "input": {
+        "integrand": "exp(x)/x",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "nonelem_recip_log",
+      "input": {
+        "integrand": "1/log(x)",
+        "variable": "x"
+      }
+    }
+  ]
+}

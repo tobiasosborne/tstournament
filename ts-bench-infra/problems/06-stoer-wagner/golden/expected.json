@@ -1,0 +1,472 @@
+{
+  "encoding_version": 1,
+  "seed": 20260426,
+  "problem": "06-stoer-wagner",
+  "cases": [
+    {
+      "id": "trivial_n1",
+      "expected": {
+        "min_cut_value": "0",
+        "partition_S": [
+          0
+        ],
+        "partition_T": []
+      }
+    },
+    {
+      "id": "trivial_n2_disconnected",
+      "expected": {
+        "min_cut_value": "0",
+        "partition_S": [
+          1
+        ],
+        "partition_T": [
+          0
+        ]
+      }
+    },
+    {
+      "id": "trivial_n2_connected",
+      "expected": {
+        "min_cut_value": "7",
+        "partition_S": [
+          1
+        ],
+        "partition_T": [
+          0
+        ]
+      }
+    },
+    {
+      "id": "K3_unit",
+      "expected": {
+        "min_cut_value": "2",
+        "partition_S": [
+          2
+        ],
+        "partition_T": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "K4_unit",
+      "expected": {
+        "min_cut_value": "3",
+        "partition_S": [
+          3
+        ],
+        "partition_T": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "id": "K5_unit",
+      "expected": {
+        "min_cut_value": "4",
+        "partition_S": [
+          4
+        ],
+        "partition_T": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "K6_unit",
+      "expected": {
+        "min_cut_value": "5",
+        "partition_S": [
+          5
+        ],
+        "partition_T": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      }
+    },
+    {
+      "id": "K8_unit",
+      "expected": {
+        "min_cut_value": "7",
+        "partition_S": [
+          7
+        ],
+        "partition_T": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    {
+      "id": "cycle_4_unit",
+      "expected": {
+        "min_cut_value": "2",
+        "partition_S": [
+          3
+        ],
+        "partition_T": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "id": "cycle_5_unit",
+      "expected": {
+        "min_cut_value": "2",
+        "partition_S": [
+          4
+        ],
+        "partition_T": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "cycle_8_unit",
+      "expected": {
+        "min_cut_value": "2",
+        "partition_S": [
+          7
+        ],
+        "partition_T": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    {
+      "id": "path_5_unit",
+      "expected": {
+        "min_cut_value": "1",
+        "partition_S": [
+          4
+        ],
+        "partition_T": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "path_5_weighted",
+      "expected": {
+        "min_cut_value": "3",
+        "partition_S": [
+          2,
+          3,
+          4
+        ],
+        "partition_T": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "bridge_two_triangles",
+      "expected": {
+        "min_cut_value": "1",
+        "partition_S": [
+          3,
+          4,
+          5
+        ],
+        "partition_T": [
+          0,
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "id": "two_isolated_edges",
+      "expected": {
+        "min_cut_value": "0",
+        "partition_S": [
+          2,
+          3
+        ],
+        "partition_T": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "parallel_edges_n3",
+      "expected": {
+        "min_cut_value": "5",
+        "partition_S": [
+          2
+        ],
+        "partition_T": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "rand_0_n10_p0.5",
+      "expected": {
+        "min_cut_value": "37",
+        "partition_S": [
+          5
+        ],
+        "partition_T": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          6,
+          7,
+          8,
+          9
+        ]
+      }
+    },
+    {
+      "id": "rand_1_n15_p0.4",
+      "expected": {
+        "min_cut_value": "31",
+        "partition_S": [
+          1
+        ],
+        "partition_T": [
+          0,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ]
+      }
+    },
+    {
+      "id": "rand_2_n20_p0.4",
+      "expected": {
+        "min_cut_value": "87",
+        "partition_S": [
+          17
+        ],
+        "partition_T": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          18,
+          19
+        ]
+      }
+    },
+    {
+      "id": "rand_3_n40_p0.3",
+      "expected": {
+        "min_cut_value": "157",
+        "partition_S": [
+          1
+        ],
+        "partition_T": [
+          0,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39
+        ]
+      }
+    },
+    {
+      "id": "stress_n100",
+      "expected": {
+        "min_cut_value": "322",
+        "partition_S": [
+          36
+        ],
+        "partition_T": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99
+        ]
+      }
+    }
+  ]
+}

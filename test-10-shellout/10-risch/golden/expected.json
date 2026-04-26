@@ -1,0 +1,115 @@
+{
+  "encoding_version": 1,
+  "seed": 20260426,
+  "problem": "10-risch",
+  "cases": [
+    {
+      "id": "poly_zero",
+      "expected": {
+        "antiderivative": "0"
+      }
+    },
+    {
+      "id": "poly_const",
+      "expected": {
+        "antiderivative": "5*x"
+      }
+    },
+    {
+      "id": "poly_x",
+      "expected": {
+        "antiderivative": "x**2/2"
+      }
+    },
+    {
+      "id": "poly_x2_plus_1",
+      "expected": {
+        "antiderivative": "x**3/3 + x"
+      }
+    },
+    {
+      "id": "poly_cubic",
+      "expected": {
+        "antiderivative": "x**4/4 - x**2 + 7*x"
+      }
+    },
+    {
+      "id": "rat_one_over_x",
+      "expected": {
+        "antiderivative": "log(x)"
+      }
+    },
+    {
+      "id": "rat_log_arg",
+      "expected": {
+        "antiderivative": "log(x**2 + x + 1)"
+      }
+    },
+    {
+      "id": "rat_partial_frac",
+      "expected": {
+        "antiderivative": "log(x) - log(x + 1)"
+      }
+    },
+    {
+      "id": "rat_x_over_1px2",
+      "expected": {
+        "antiderivative": "log(x**2 + 1)/2"
+      }
+    },
+    {
+      "id": "exp_x",
+      "expected": {
+        "antiderivative": "exp(x)"
+      }
+    },
+    {
+      "id": "x_exp_x",
+      "expected": {
+        "antiderivative": "(x - 1)*exp(x)"
+      }
+    },
+    {
+      "id": "log_x",
+      "expected": {
+        "antiderivative": "x*log(x) - x"
+      }
+    },
+    {
+      "id": "log_over_x",
+      "expected": {
+        "antiderivative": "log(x)**2/2"
+      }
+    },
+    {
+      "id": "x_exp_x2",
+      "expected": {
+        "antiderivative": "exp(x**2)/2"
+      }
+    },
+    {
+      "id": "recip_x_log_x",
+      "expected": {
+        "antiderivative": "log(log(x))"
+      }
+    },
+    {
+      "id": "nonelem_exp_x2",
+      "expected": {
+        "antiderivative": null
+      }
+    },
+    {
+      "id": "nonelem_exp_over_x",
+      "expected": {
+        "antiderivative": null
+      }
+    },
+    {
+      "id": "nonelem_recip_log",
+      "expected": {
+        "antiderivative": null
+      }
+    }
+  ]
+}

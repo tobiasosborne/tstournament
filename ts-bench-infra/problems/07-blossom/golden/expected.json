@@ -1,0 +1,453 @@
+{
+  "encoding_version": 1,
+  "seed": 20260426,
+  "problem": "07-blossom",
+  "cases": [
+    {
+      "id": "trivial_n0",
+      "expected": {
+        "matching": [],
+        "total_weight": "0"
+      }
+    },
+    {
+      "id": "trivial_n1",
+      "expected": {
+        "matching": [],
+        "total_weight": "0"
+      }
+    },
+    {
+      "id": "single_edge",
+      "expected": {
+        "matching": [
+          [
+            0,
+            1
+          ]
+        ],
+        "total_weight": "7"
+      }
+    },
+    {
+      "id": "triangle_unit",
+      "expected": {
+        "matching": [
+          [
+            1,
+            2
+          ]
+        ],
+        "total_weight": "1"
+      }
+    },
+    {
+      "id": "triangle_distinct",
+      "expected": {
+        "matching": [
+          [
+            1,
+            2
+          ]
+        ],
+        "total_weight": "7"
+      }
+    },
+    {
+      "id": "C5_unit",
+      "expected": {
+        "matching": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "total_weight": "2"
+      }
+    },
+    {
+      "id": "C5_distinct",
+      "expected": {
+        "matching": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "total_weight": "8"
+      }
+    },
+    {
+      "id": "C7_unit",
+      "expected": {
+        "matching": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            5,
+            6
+          ]
+        ],
+        "total_weight": "3"
+      }
+    },
+    {
+      "id": "C9_unit",
+      "expected": {
+        "matching": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            5,
+            6
+          ],
+          [
+            7,
+            8
+          ]
+        ],
+        "total_weight": "4"
+      }
+    },
+    {
+      "id": "star_4_leaves",
+      "expected": {
+        "matching": [
+          [
+            0,
+            4
+          ]
+        ],
+        "total_weight": "6"
+      }
+    },
+    {
+      "id": "path_6_alternating",
+      "expected": {
+        "matching": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "total_weight": "8"
+      }
+    },
+    {
+      "id": "K4_distinct",
+      "expected": {
+        "matching": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "total_weight": "14"
+      }
+    },
+    {
+      "id": "K5_distinct",
+      "expected": {
+        "matching": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "total_weight": "26"
+      }
+    },
+    {
+      "id": "K6_distinct",
+      "expected": {
+        "matching": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "total_weight": "44"
+      }
+    },
+    {
+      "id": "C4_with_negatives",
+      "expected": {
+        "matching": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "total_weight": "10"
+      }
+    },
+    {
+      "id": "isolated_vertex_negative",
+      "expected": {
+        "matching": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "total_weight": "9"
+      }
+    },
+    {
+      "id": "bipartite_4x4_dense",
+      "expected": {
+        "matching": [
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            7
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "total_weight": "168"
+      }
+    },
+    {
+      "id": "rand_0_n8_p0.5",
+      "expected": {
+        "matching": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            6
+          ],
+          [
+            5,
+            7
+          ]
+        ],
+        "total_weight": "125"
+      }
+    },
+    {
+      "id": "rand_1_n10_p0.5",
+      "expected": {
+        "matching": [
+          [
+            0,
+            9
+          ],
+          [
+            1,
+            7
+          ],
+          [
+            2,
+            8
+          ],
+          [
+            3,
+            6
+          ]
+        ],
+        "total_weight": "95"
+      }
+    },
+    {
+      "id": "rand_2_n12_p0.4",
+      "expected": {
+        "matching": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            9
+          ],
+          [
+            5,
+            8
+          ],
+          [
+            6,
+            10
+          ],
+          [
+            7,
+            11
+          ]
+        ],
+        "total_weight": "227"
+      }
+    },
+    {
+      "id": "rand_3_n14_p0.4",
+      "expected": {
+        "matching": [
+          [
+            1,
+            7
+          ],
+          [
+            2,
+            8
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            6,
+            10
+          ],
+          [
+            9,
+            12
+          ],
+          [
+            11,
+            13
+          ]
+        ],
+        "total_weight": "263"
+      }
+    },
+    {
+      "id": "rand_4_n16_p0.5",
+      "expected": {
+        "matching": [
+          [
+            0,
+            12
+          ],
+          [
+            1,
+            8
+          ],
+          [
+            2,
+            11
+          ],
+          [
+            3,
+            10
+          ],
+          [
+            4,
+            13
+          ],
+          [
+            5,
+            14
+          ],
+          [
+            6,
+            7
+          ],
+          [
+            9,
+            15
+          ]
+        ],
+        "total_weight": "321"
+      }
+    },
+    {
+      "id": "rand_5_n16_p0.3",
+      "expected": {
+        "matching": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            7
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            3,
+            15
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            6,
+            12
+          ],
+          [
+            9,
+            13
+          ]
+        ],
+        "total_weight": "311"
+      }
+    }
+  ]
+}
