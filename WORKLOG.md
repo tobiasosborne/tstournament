@@ -1,25 +1,28 @@
 # tstournament — session worklog (handoff for the next orchestrator agent)
 
-Last updated: 2026-04-26, end of Opus 4.7 session.
+Last updated: 2026-04-26, end of Opus 4.7 (1M) continuation session — `test-2` done, repo published.
 
 ---
 
 ## ► YOUR NEXT TASK
 
-**Orchestrate `test-2`** — Phase-3 trial of problem 02 (Number-Theoretic Transform).
-**Same protocol as `test-10` pure-TS** (the gold-standard reference run; details below).
+**Orchestrate `test-3`** — Phase-3 trial of problem 03 (Suffix Automaton).
+**Same protocol as `test-2` and `test-10` pure-TS** (gold-standard reference runs; details below).
 
 Concretely:
 
-1. `mkdir -p /home/tobiasosborne/Projects/tstournament/test-2/02-ntt`
-2. Copy `ts-bench-infra/problems/02-ntt/{DESCRIPTION.md,PROMPT.md,REFERENCES.md}` and `ts-bench-infra/problems/02-ntt/golden/` (whole subtree) into `test-2/02-ntt/`. **Do not** copy `reference/` or `sources/`.
-3. Copy `ts-bench-infra/infra/verifiers/` into `test-2/verifiers/`.
-4. Apply the forbidden-token scrub on the staged prose files (otherwise reference-impl identifiers leak — see "scrub gotcha" below). Token list and one-liner are in §"Staging recipe" below.
-5. Run the leakage check (same one-liner). It must report `clean`.
-6. Spawn one general-purpose subagent (no `--model` override → inherits Opus 4.7) with the **pure-TS hard constraint** in the brief. Use `test-10` Agent invocation (in §"Trial-run records" below) as a template; just substitute `test-2` / `02-ntt`. Keep the brief verbatim where possible.
-7. When the agent completes, **independently re-run the verifier yourself** (`verifiers/run_tests.sh 02-ntt npx --yes tsx 02-ntt/solution.ts`), audit the source for constraint compliance with the same grep, then write a formal review using the scorecard template in §"Trial-run records".
+1. `mkdir -p /home/tobiasosborne/Projects/tstournament/test-3/03-suffix-automaton`
+2. Copy `ts-bench-infra/problems/03-suffix-automaton/{DESCRIPTION.md,PROMPT.md,REFERENCES.md}` and `ts-bench-infra/problems/03-suffix-automaton/golden/` (whole subtree) into `test-3/03-suffix-automaton/`. **Do not** copy `reference/` or `sources/`.
+3. Copy `ts-bench-infra/infra/verifiers/` into `test-3/verifiers/`.
+4. Apply the forbidden-token scrub on the staged prose files. Token list and one-liner are in §"Staging recipe" below — substitute `test-3` / `03-suffix-automaton` for the example. (For problem 03 specifically: pre-scrub will probably find nothing — there is no canonical-shortcut Python package to redact — but **also strip any reference-impl pointer in REFERENCES.md** like the `## Reference implementation` section that pointed at `reference/README.md` in problem 02. That one is the real leak risk for this problem.)
+5. Run the leakage check (same one-liner). It must report `clean`. Also `grep -nEi 'reference/|reference impl|stripped|ts-bench' test-3/03-suffix-automaton/*.md test-3/03-suffix-automaton/golden/*.md` — should be empty.
+6. Spawn one general-purpose subagent (no `--model` override → inherits Opus 4.7) with the **pure-TS hard constraint** in the brief. Use the `test-2` Agent invocation in §"Trial-run records" as a template; just substitute `test-3` / `03-suffix-automaton`. Keep the brief verbatim where possible. The constraint section MUST be at the top.
+7. When the agent completes, **independently re-run the verifier yourself** (`verifiers/run_tests.sh 03-suffix-automaton npx --yes tsx 03-suffix-automaton/solution.ts`), audit the source for constraint compliance with the same grep, then write a formal review at `test-3/REVIEW.md` using the scorecard template in §"Trial-run records".
+8. After the review lands, commit + push as a normal incremental commit on `main`. The repo (see §"Public repo" below) is set up with this in mind; no force pushing, no rewrite.
 
-Do not start `test-2` until you've read §"Don'ts" below — there are real traps from this session.
+Do not start `test-3` until you've read §"Don'ts" below.
+
+**Side-note alternative — Sonnet 4.6 cross-model probe.** The `test-2` REVIEW recommends running `test-2` on Sonnet 4.6 next as the cheapest cross-model discrimination data point while the Opus 4.7 baseline is fresh. If the user's plan tilts toward model-comparison rather than problem-coverage, do that first — the staging directory would be `test-2-sonnet/` and only the model differs. Default is to march forward through problems unless the user signals otherwise.
 
 ---
 
@@ -28,15 +31,27 @@ Do not start `test-2` until you've read §"Don'ts" below — there are real trap
 ### Repos
 
 ```
-/home/tobiasosborne/Projects/tstournament/
+/home/tobiasosborne/Projects/tstournament/   (now a git repo, public on GitHub)
 ├── ts-bench-infra/        ← Phase-1 infra repo (10 problems, golden masters, reference impls)
-├── test-1/                ← Phase-3 trial: 01-fft (Opus, pure TS, 39/39 green)
-├── test-10/               ← Phase-3 trial: 10-risch (Opus, pure TS, 18/18 green)
-├── test-10-shellout/      ← archived: 10-risch (Opus, SymPy-driven, 18/18 green)
-├── test-2/                ← (to be created — your task)
+├── test-1/                ← Phase-3 trial: 01-fft (Opus 4.7, pure TS, 39/39 green)
+├── test-10/               ← Phase-3 trial: 10-risch (Opus 4.7, pure TS, 18/18 green)
+├── test-10-shellout/      ← archived: 10-risch (Opus 4.7, SymPy-driven, 18/18 green)
+├── test-2/                ← Phase-3 trial: 02-ntt (Opus 4.7, pure TS, 64/64 green) — REVIEW.md present
+├── test-3/                ← (to be created — your task)
+├── README.md              ← public-repo intro
+├── LICENSE                ← AGPL-3.0
+├── .gitignore             ← excludes PDFs, marker-out/staging, quarantine, node_modules, .browser-profile, .claude
 ├── claude-code-phase1-prompt.md   ← original phase-1 prompt (historical)
 └── WORKLOG.md             ← this file
 ```
+
+### Public repo
+
+- `https://github.com/tobiasosborne/tstournament` — public, AGPL-3.0, default branch `main`.
+- Initial commit `7a482d3` was the full state of the project at end of test-2.
+- gh CLI is auth'd as `tobiasosborne` (SSH protocol). The user's PAT was upgraded mid-session to include repo-creation scope.
+- Anything that would re-add a copyrighted PDF, a Playwright `.browser-profile`, or `.claude/` Lean4 leftovers is gitignored — re-check `.gitignore` before adding new top-level dirs.
+- Standard incremental workflow: edit, `git add`, `git commit`, `git push`. No force-push, no rewriting `main`.
 
 ### `ts-bench-infra/` state
 
@@ -74,6 +89,11 @@ Chronological:
 7. **`test-1` trial** (problem 01-fft, TypeScript, Opus 4.7): 39/39 green; 218-line clean iterative radix-2 FFT with Float64Array storage. ~6 min, ~$0.65.
 8. **`test-10` shellout trial** (problem 10-risch, Opus, no constraint on method): 18/18 green via SymPy `risch_integrate` driven from a TS wrapper. 300 lines, ~5 min, ~$0.65. **Archived to `test-10-shellout/` as comparison reference.**
 9. **`test-10` pure-TS trial** (problem 10-risch, Opus, **pure-TS constraint**): 18/18 green, 2265 lines of from-scratch Bronstein-shaped TypeScript (Q rationals → polys → Expr AST → Risch). ~25 min, ~$3.
+
+### Continuation session (after compact)
+
+10. **`test-2` pure-TS trial** (problem 02-ntt, Opus 4.7, **pure-TS constraint**): 64/64 green across all four checks (`shape · canonical_range · modular_equality · roundtrip`). 417 lines / 17 491 B / single-file TypeScript: hand-rolled Montgomery REDC (R = 2³², 16-bit limb splits in pure `Number` via `Math.imul`), iterative Cooley-Tukey on `Uint32Array`, full Bluestein chirp-z reduction for non-power-of-two `n`, both directions cached. ~24 min, 113k tokens, ~$2. Honest self-report (per-check totals matched harness exactly; architecture description matched source order 1:1). REVIEW at `test-2/REVIEW.md`. Found one staging gotcha: REFERENCES.md had a `## Reference implementation` section pointing at `reference/README.md` — leaks the existence of a stripped reference impl. Stripped before spawning. Recorded in §"Don'ts" item 8.
+11. **Repository published to GitHub.** Top-level README.md (project intro, methodology, results table), AGPL-3.0 LICENSE (canonical text via `gh api licenses/agpl-3.0`), comprehensive .gitignore. 162 files / 31 MB. Initial commit `7a482d3`. The PAT initially lacked `Administration: write` scope (fine-grained PATs need it explicitly to create repos); user updated the token mid-session and the second `gh repo create` succeeded.
 
 ---
 
@@ -200,6 +220,23 @@ End with one or two paragraphs of methodology / benchmark-design observations.
 - Strategy: hand-rolled iterative radix-2 with `Float64Array` parallel re/im, NR §12.2 bit-reversal, precomputed twiddle table, `clz32` for log₂, sign-flag for fwd/inv
 - File: `test-1/01-fft/solution.ts`
 
+### `test-2/` — problem 02-ntt (TypeScript, Opus 4.7, **pure-TS reference run for arithmetic-heavy problems**)
+- Result: `shape 64/64 · canonical_range 64/64 · modular_equality 64/64 · roundtrip 64/64` (all green)
+- 417 lines / 17 491 bytes
+- Wall-clock 23m42s, 113k tokens, 48 tool uses, ~$2
+- Strategy:
+  - Field constants frozen as literals (`p = 998244353`, Montgomery R = 2³², `R mod p`, `R² mod p`, `p_inv = -p⁻¹ mod 2³²`).
+  - BigInt setup helpers (`modpowBig`, `modinv` via Fermat) — used only at plan-build time; never enters the inner loop.
+  - Montgomery REDC `mmul(a, b)` in pure `Number` arithmetic via 16-bit limb splits and `Math.imul`. No BigInt, no `% p`, no division on the hot path.
+  - Power-of-two iterative Cooley-Tukey on `Uint32Array` (Montgomery values), in-place, single bit-reversal up front, twiddle table flat-packed across all stages, cached per `(size, direction)`.
+  - Bluestein chirp-z for non-power-of-two `n | (p − 1)`: `ζ = ω_{2n}`, length `L = nextPow2(2n − 1)` cyclic convolution, chirp constructed iteratively via `ζ^{(j+1)²} = ζ^{j²} · ζ^{2j+1}`. Forward/inverse plans cached separately.
+  - Top-level dispatcher routes power-of-two through fast path, else through Bluestein. Inverse handled by ζ → ζ⁻¹ in the plan; `n⁻¹` and `L⁻¹` folded into a single per-output post-multiply.
+  - JSON driver: `fs.readFileSync(0)` → parse → `ntt(...)` → `JSON.stringify` → `process.stdout.write`. Only import is `node:fs`.
+- File: `test-2/02-ntt/solution.ts`
+- Constraint compliance: audited clean (single grep hit is the self-declarative comment "Pure JS / TS only. No child_process, no shellouts, no native bindings.")
+- Review: `test-2/REVIEW.md` — full 7-row scorecard, comparative table vs test-10, methodology paragraphs.
+- Agent self-report calibration: per-check totals reproduced exactly; architecture description matched source order 1:1; resource log within 5% of measured wall-clock. Honesty grade A+.
+
 ### `test-10-shellout/` — problem 10-risch (TypeScript wrapper, archived)
 - Result: 18/18 green
 - 300 lines / 12 412 bytes (TS) + ~100 lines embedded Python helper
@@ -227,13 +264,16 @@ End with one or two paragraphs of methodology / benchmark-design observations.
 
 ### Cost-per-quality anchors
 
-| Trial | Lines | Time | Tokens | Verifier |
-|---|---|---|---|---|
-| 01-fft hand-rolled | 218 | 5m46s | 42k | 39/39 |
-| 10-risch shellout | 300 | 4m36s | 41k | 18/18 |
-| 10-risch pure-TS | 2265 | 25m | 159k | 18/18 |
+| Trial | Lines | Time | Tokens | Cost | Verifier |
+|---|---|---|---|---|---|
+| 01-fft pure-TS    | 218   | 5m46s  | 42k  | ~$0.65 | 39/39 |
+| 02-ntt pure-TS    | 417   | 23m42s | 113k | ~$2    | 64/64 |
+| 10-risch shellout | 300   | 4m36s  | 41k  | ~$0.65 | 18/18 |
+| 10-risch pure-TS  | 2 265 | 24m59s | 159k | ~$3    | 18/18 |
 
 Pure-TS Risch is **~5× wall-clock and ~4× cost** vs the shellout for the same verifier score. Same model, just constraint differs. This is the most useful single data point in the benchmark for distinguishing "delegate cleanly" from "implement actually".
+
+NTT (`test-2`) sits roughly midway in cost between FFT and Risch: arithmetic-heavy and structurally non-trivial (Bluestein + Montgomery), but with much smaller surface area than Risch's nested-algorithm stack. Useful as a baseline for arithmetic-heavy problems, less useful for tier discrimination — likely too easy for Sonnet 4.6 / Haiku 4.5 to discriminate against Opus 4.7.
 
 ---
 
@@ -288,6 +328,8 @@ Windows Downloads folder (for "geoguess what the user just clicked"):
 5. **Don't put excerpts in PROMPT.md without verbatim PDF backing.** The session replaced all paraphrases with string-identical quotes from the actual PDFs (with file:p<page> citations). Maintain this standard for any future PROMPT.md edits.
 6. **Don't hallucinate URLs or DOIs.** If asked to find a paper or resource, use `WebSearch` and verify hits with `curl -sIL` HEAD checks before presenting them. The user has explicitly flagged this.
 7. **Don't modify the canonical `ts-bench-infra/problems/*/PROMPT.md` for trial-specific overrides.** The pure-TS constraint must go in the **agent brief**, not in the PROMPT, so the same PROMPT works across both shellout and pure-TS variants.
+8. **Don't forget to scrub the `## Reference implementation` section in REFERENCES.md.** The forbidden-token list in the staging recipe catches *Python-API* leaks (`sympy.discrete.transforms.ntt`, etc.) but does **not** catch the textual pointer "Documented in `reference/README.md` (stripped from `ts-bench-test` by the Phase-2 strip script)". `test-2` had this exact leak in `02-ntt/REFERENCES.md`; caught and stripped manually before spawning. Run `grep -nEi 'reference/|reference impl|stripped|ts-bench' <staged>/<problem>/*.md <staged>/<problem>/golden/*.md` after the token scrub and remove any matching section.
+9. **Don't commit copyrighted PDFs, Playwright `.browser-profile`, or `.claude/`.** All three are gitignored in the published repo. Re-check `.gitignore` before adding new top-level dirs that might bring binaries with them.
 
 ---
 
@@ -307,17 +349,21 @@ Windows Downloads folder (for "geoguess what the user just clicked"):
 
 - Marker batch on the remaining 14 of 19 PDFs in `.marker-out/`. Stopped after 5 due to WSL OOM concern. Markdown extracts that did complete: Cooley-Tukey, Blumer, Bronstein-tutorial, Risch-1969, plus one more. The PROMPTs do not depend on these — they were used as a convenience cross-reference, with `pdftotext -layout` doing the actual work.
 - Stehlé Ch.5 from the LLL Algorithm book. The whole 503-page book is on disk at `problems/05-lll/sources/Stehle_LLL_FloatingPoint_2010.pdf`. PROMPT 05 currently uses only LLL 1982 excerpts (sufficient). If the user wants floating-point variant grounding, extract pages corresponding to Ch.5.
-- Test runs for problems 02–09. Problem 02 is **next** (this handoff).
+- Test runs for problems 03–09. Problem 03 (Suffix Automaton) is **next** (this handoff).
+- Cross-model sweep. Opus 4.7 baselines exist for 01-fft, 02-ntt, and 10-risch (both shellout and pure-TS). Sonnet 4.6 / Haiku 4.5 / local-model sweeps are still pending. The `test-2` REVIEW recommends Sonnet on 02-ntt as the cheapest cross-model discrimination point — useful if the user pivots from problem-coverage to model-comparison.
 
 ---
 
 ## ► QUICK-REFERENCE COMMANDS
 
-Re-run any of the three completed trials:
+Re-run any of the four completed trials:
 
 ```bash
 cd /home/tobiasosborne/Projects/tstournament/test-1 \
   && verifiers/run_tests.sh 01-fft npx --yes tsx 01-fft/solution.ts
+
+cd /home/tobiasosborne/Projects/tstournament/test-2 \
+  && verifiers/run_tests.sh 02-ntt npx --yes tsx 02-ntt/solution.ts
 
 cd /home/tobiasosborne/Projects/tstournament/test-10 \
   && verifiers/run_tests.sh 10-risch npx --yes tsx 10-risch/solution.ts
@@ -342,4 +388,4 @@ cd /home/tobiasosborne/Projects/tstournament/ts-bench-infra \
 
 ---
 
-End of worklog. Good luck with `test-2`.
+End of worklog. Good luck with `test-3`.
