@@ -38,7 +38,7 @@ PDFs and reference implementations are deliberately not staged in trial
 dirs, so the model sees only the canonical problem description and the
 verifier surface.
 
-## The ten problems
+## The eleven problems
 
 See `ts-bench-infra/README.md` for the full table. The short list:
 
@@ -54,6 +54,22 @@ See `ts-bench-infra/README.md` for the full table. The short list:
 | 08 | Buchberger / Gröbner basis | Buchberger 1965/1979 |
 | 09 | PSLQ (integer-relation detection) | Ferguson-Bailey-Arno 1999 |
 | 10 | Risch integration (transcendental-elementary) | Risch 1969/1970 + Bronstein 1998 |
+| 11 | Shewchuk's adaptive-precision predicates (orient2d, orient3d, incircle, insphere) | Shewchuk 1996 |
+
+Problem 11 is structurally distinct from 1–10. Where 1–10 reward
+"implement the canonical form correctly" — each has a textbook
+expression that maps cleanly to TypeScript — problem 11 *punishes* the
+canonical form. The naive `Math.sign(determinant)` evaluator looks
+right and passes random cases, but fails ~25% of an adversarially-
+constructed test set on near-degenerate inputs. A `bigint`-rational
+implementation passes correctness everywhere but times out on the
+speed-gate tier. Only an IEEE-754 adaptive-precision implementation in
+the spirit of Shewchuk's `predicates.c` (staged expansion arithmetic,
+static + dynamic error-bound escalation) passes all tiers under the
+1.5-second per-case budget. The golden master is generated from a
+ctypes-wrapped build of Shewchuk's canonical C, with a `Fraction`-based
+Python reference cross-validated to byte-perfect agreement on every
+query — see `ts-bench-infra/problems/11-shewchuk-predicates/`.
 
 ## Methodology
 

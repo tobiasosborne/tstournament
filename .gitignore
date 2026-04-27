@@ -23,6 +23,11 @@ venv/
 env/
 .python-version
 
+# Compiled C oracles for ts-bench-infra (rebuild from sources/ on each platform).
+*.so
+*.dylib
+*.dll
+
 # --- Editor / OS noise ---
 .DS_Store
 Thumbs.db

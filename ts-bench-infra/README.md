@@ -1,6 +1,6 @@
 # ts-bench-infra
 
-Infrastructure repo for the TS-Benchmark: ten algorithm-implementation
+Infrastructure repo for the TS-Benchmark: eleven algorithm-implementation
 problems whose obscurity rises monotonically, used to test how well
 Claude implements sophisticated algorithms in TypeScript when no public
 TS implementation exists for most of them.
@@ -29,7 +29,9 @@ ts-bench-infra/
 │   │       ├── verify.py             language-neutral JSON-I/O verifier
 │   │       └── generate.py           seeded RNG; reproduces inputs/expected
 │   ├── 02-ntt/   …
-│   └── 10-risch/
+│   ├── 10-risch/
+│   └── 11-shewchuk-predicates/   (canonical-oracle ground truth via
+│                                  ctypes-wrapped predicates.c)
 ├── infra/
 │   ├── playwright/                 PDF fetcher harness for sources/
 │   ├── verifiers/
@@ -54,6 +56,7 @@ ts-bench-infra/
 | 8  | Buchberger's algorithm (Gröbner bases over ℚ)    | green 18/18  |
 | 9  | PSLQ integer relation detection                  | green 14/14  |
 | 10 | Risch (transcendental Liouvillian, Bronstein 5–6)| green 18/18  |
+| 11 | Shewchuk's adaptive-precision geometric predicates | adversarial 27 cases / ~860k queries; canonical oracle |
 
 Re-run any problem's full pipeline with:
 
