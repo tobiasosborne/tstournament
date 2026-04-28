@@ -1,6 +1,6 @@
 # ts-bench-infra
 
-Infrastructure repo for the TS-Benchmark: eleven algorithm-implementation
+Infrastructure repo for the TS-Benchmark: twelve algorithm-implementation
 problems whose obscurity rises monotonically, used to test how well
 Claude implements sophisticated algorithms in TypeScript when no public
 TS implementation exists for most of them.
@@ -57,6 +57,7 @@ ts-bench-infra/
 | 9  | PSLQ integer relation detection                  | green 14/14  |
 | 10 | Risch (transcendental Liouvillian, Bronstein 5–6)| green 18/18  |
 | 11 | Shewchuk's adaptive-precision geometric predicates | adversarial 27 cases / ~860k queries; canonical oracle |
+| 12 | Shortest-round-trip float ↔ string (Steele-White / Ryu / Eisel-Lemire) | adversarial 26 cases / ~447k queries; parse-number-fxx-test-data Tier K + Ryu regression Tier M; **no-direct-porting** constraint |
 
 Re-run any problem's full pipeline with:
 

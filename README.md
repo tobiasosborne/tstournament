@@ -1,9 +1,11 @@
 # tstournament
 
 A TypeScript algorithm benchmark for evaluating large language models on
-sophisticated, paper-grounded algorithm implementation. Ten problems
+sophisticated, paper-grounded algorithm implementation. Twelve problems
 spanning FFT, NTT, suffix automata, Schreier-Sims, LLL, Stoer-Wagner,
-Edmonds' blossom, Buchberger / Gröbner, PSLQ, and Risch integration —
+Edmonds' blossom, Buchberger / Gröbner, PSLQ, Risch integration,
+Shewchuk's adaptive-precision predicates, and the shortest-round-trip
+float-to-string / correctly-rounded string-to-float pair —
 each pinned to a primary source paper, with a golden-master test harness
 that is exact (no tolerance for symbolic / modular problems, tight
 numerical tolerance for floating-point ones).
@@ -38,7 +40,7 @@ PDFs and reference implementations are deliberately not staged in trial
 dirs, so the model sees only the canonical problem description and the
 verifier surface.
 
-## The eleven problems
+## The twelve problems
 
 See `ts-bench-infra/README.md` for the full table. The short list:
 
@@ -55,6 +57,7 @@ See `ts-bench-infra/README.md` for the full table. The short list:
 | 09 | PSLQ (integer-relation detection) | Ferguson-Bailey-Arno 1999 |
 | 10 | Risch integration (transcendental-elementary) | Risch 1969/1970 + Bronstein 1998 |
 | 11 | Shewchuk's adaptive-precision predicates (orient2d, orient3d, incircle, insphere) | Shewchuk 1996 |
+| 12 | Shortest-round-trip float ↔ string (`dtoa` + `strtod`) | Steele-White 1990 + Loitsch 2010 + Adams 2018 + Clinger 1990 + Lemire 2021 |
 
 Problem 11 is structurally distinct from 1–10. Where 1–10 reward
 "implement the canonical form correctly" — each has a textbook
@@ -70,6 +73,22 @@ static + dynamic error-bound escalation) passes all tiers under the
 ctypes-wrapped build of Shewchuk's canonical C, with a `Fraction`-based
 Python reference cross-validated to byte-perfect agreement on every
 query — see `ts-bench-infra/problems/11-shewchuk-predicates/`.
+
+Problem 12 inherits problem 11's correctness/speed tension and adds an
+explicit **no-direct-porting** hard constraint. The brief forbids the
+agent from consulting `ulfjack/ryu`, `lemire/fast_float`, OpenJDK's
+`DoubleToDecimal`, Go `strconv`, David Gay's `dtoa.c`, or any other
+canonical reference implementation, and the orchestrator audits the
+delivered source for transliteration markers (function names matching
+a published reference verbatim, comment-by-comment correspondence,
+constant tables byte-identical to a known reference's `.h`). The
+benchmark measures *derive from paper*, not *transliterate C to TS*.
+The test set includes the full Apache-2.0 `nigeltao/parse-number-fxx-
+test-data` strtod corpus (~21 200 cross-implementation cases used by
+Rust's `fast-float`, Go's `strconv` since 1.16, simdjson, RapidJSON,
+FreeType) plus an Adams-2018-§5 dtoa regression catalogue and a full
+subnormal-binade sweep — see
+`ts-bench-infra/problems/12-float-string/`.
 
 ## Methodology
 
