@@ -1,24 +1,22 @@
 # tstournament — session worklog (handoff for the next orchestrator agent)
 
-Last updated: 2026-04-28, end of Opus 4.7 (1M) orchestrator session — Phase-3 trial `test-11` (Shewchuk adaptive predicates) green 27/27, problem 12 (shortest-round-trip float ↔ string) added to `ts-bench-infra/` with no-direct-porting hard constraint, Phase-3 trial `test-12` green 26/26 after a real-world orchestration outage event. Twelve problems live; pending baseline trials: 08, 09. Repo committed + pushed at end of session.
+Last updated: 2026-05-01, end of Opus 4.7 (1M) orchestrator session — Phase-3 trial `test-8` (Buchberger / Gröbner basis over ℚ) green 18/18, pure-TS, with Gebauer–Möller insertion-time pair pruning. Eleven Opus 4.7 baselines now exist (test-1..8, test-10, test-11, test-12). Twelve problems live; pending baseline trial: 09 only. Repo committed + pushed at end of session.
+
+Prior session header (2026-04-28): Phase-3 trial `test-11` (Shewchuk adaptive predicates) green 27/27, problem 12 (shortest-round-trip float ↔ string) added to `ts-bench-infra/` with no-direct-porting hard constraint, Phase-3 trial `test-12` green 26/26 after a real-world orchestration outage event.
 
 ---
 
 ## ► YOUR NEXT TASK
 
-Four reasonable paths. The user has not pinned one; default is (a) unless they signal otherwise.
+Three reasonable paths. The user has not pinned one; default is (a) unless they signal otherwise.
 
-**(a) Sonnet 4.6 cross-model probe.** Ten Opus 4.7 baselines now exist (test-1..7, test-10, test-11, test-12) — a strong corpus to start cross-model. The three load-bearing discriminators are **test-7 blossom** (eight named pieces, no single load-bearing decision resolves the others), **test-11 Shewchuk predicates** (correctness/speed tension; naive ~25% fail, bigint-rational times out, only Shewchuk-class adaptive arithmetic passes), and **test-12 float↔string** (correctness/speed tension *plus* the no-direct-porting constraint that punishes transliteration). These are roughly orthogonal failure axes — a model that fails any one of them tells you something specific about its weakness. Stage as `test-N-sonnet/` and only the model differs. Recommend running test-11 first (cheapest of the three, clearest tier hierarchy), then test-12 (most informative on derivation vs porting), then test-7 (coordination breadth).
+**(a) Sonnet 4.6 cross-model probe.** Eleven Opus 4.7 baselines now exist (test-1..8, test-10, test-11, test-12) — a strong corpus to start cross-model. The three load-bearing discriminators are **test-7 blossom** (eight named pieces, no single load-bearing decision resolves the others), **test-11 Shewchuk predicates** (correctness/speed tension; naive ~25% fail, bigint-rational times out, only Shewchuk-class adaptive arithmetic passes), and **test-12 float↔string** (correctness/speed tension *plus* the no-direct-porting constraint that punishes transliteration). These are roughly orthogonal failure axes — a model that fails any one of them tells you something specific about its weakness. Stage as `test-N-sonnet/` and only the model differs. Recommend running test-11 first (cheapest of the three, clearest tier hierarchy), then test-12 (most informative on derivation vs porting), then test-7 (coordination breadth).
 
-**(b) Orchestrate `test-8`** — problem 08 (Buchberger / Gröbner basis over ℚ).
+**(b) Orchestrate `test-9`** — problem 09 (PSLQ integer-relation detection).
 
-The Python shortcut is `sympy.polys.groebner` which the verifier uses internally — same forbidden-token scrub pattern as test-2, test-4. Default if the user prefers problem-coverage over model-comparison.
+Last remaining problem from 1..12 without an Opus baseline. Closes the canonical sweep (test-8 just completed). Python shortcut is `mpmath.pslq` (already in the FORBIDDEN_TOKENS list).
 
-**(c) Orchestrate `test-9`** — problem 09 (PSLQ integer-relation detection).
-
-Last remaining problem from 1..10 without an Opus baseline. Combined with test-8 this completes the canonical-sweep coverage.
-
-**(d) Add problem 13** — the user has not signalled this, but the benchmark could continue to grow. Problems 11 and 12 both broke new ground (correctness/speed tension; no-direct-porting); a problem 13 candidate would need to introduce a *new* failure axis not already covered. No proposal currently on the table.
+**(c) Add problem 13** — the user has not signalled this, but the benchmark could continue to grow. Problems 11 and 12 both broke new ground (correctness/speed tension; no-direct-porting); a problem 13 candidate would need to introduce a *new* failure axis not already covered. No proposal currently on the table.
 
 Concrete protocol for any of (a/b/c) is in §"Staging recipe" / §"Agent brief template" / §"Review scorecard" below. Do not start until you've read §"Don'ts".
 
@@ -40,6 +38,7 @@ Concrete protocol for any of (a/b/c) is in §"Staging recipe" / §"Agent brief t
 ├── test-5/                ← Phase-3 trial: 05-lll (Opus 4.7, pure TS, 22/22 green)
 ├── test-6/                ← Phase-3 trial: 06-stoer-wagner (Opus 4.7, pure TS, 21/21 green)
 ├── test-7/                ← Phase-3 trial: 07-blossom (Opus 4.7, pure TS, 23/23 green)
+├── test-8/                ← Phase-3 trial: 08-buchberger (Opus 4.7, pure TS, 18/18 green)
 ├── test-10/               ← Phase-3 trial: 10-risch (Opus 4.7, pure TS, 18/18 green)
 ├── test-10-shellout/      ← archived: 10-risch (Opus 4.7, SymPy-driven, 18/18 green)
 ├── test-11/               ← Phase-3 trial: 11-shewchuk-predicates (Opus 4.7, pure TS, 27/27 green) — prior session
@@ -83,7 +82,15 @@ All test-11 / test-12 / problem 12 work is committed + pushed at end of this ses
 
 ---
 
-## ► WHAT THE 2026-04-28 SESSION ACCOMPLISHED (current session)
+## ► WHAT THE 2026-05-01 SESSION ACCOMPLISHED (current session)
+
+A. **`test-8` trial** (problem 08 Buchberger / Gröbner basis over ℚ, Opus 4.7, pure-TS): 18/18 across `shape · candidate_in_input_ideal · groebner_basis_property · input_in_candidate_ideal`. 737 lines / 28 346 bytes. ~84 m wall-clock, 169 620 tokens, 107 tool uses, ~$3.5-4. Full pipeline from scratch in seven labelled sections — BigInt-`Q` rationals; both monomial orders (`lex` left-to-right; `degrevlex` degree-first then last-differing-from-right with inverted comparison); descending-sorted `Poly` invariant via `polyMulTerm` and linear-merge `polyAxBy`; **Map-based `normalForm`** (running poly held as `Map<expKey, term>` so subtracting `c · x^m · g` is O(\|g\|) regardless of poly size) and textbook `sPolynomial`; **Gebauer-Möller UPDATE** for pair-set maintenance (Becker-Weispfenning Alg. 5.66 / Gebauer-Möller JSC 1988) with three labelled passes M (canonical lcm-rep), F (Buchberger Criterion 1 at insertion time), B (Criterion 2 / chain criterion at insertion time); normal selection via linear scan for smallest LCM; defensive pop-time Criterion 1 belt-and-braces; unit-ideal short-circuit; `reduceBasis` final inter-reduction to the unique reduced GB; `polyClearDenoms` integer-coefficient cosmetic step that doubles as a verifier-coercion-bug-dodge for sympy 1.14's `groebner.contains(...)` `CoercionFailed` on rational candidates. Two grep hits, both inside the `polyClearDenoms` docblock describing the verifier-side bug. Single import `node:fs`. Architecture description matched source order 1:1 (verified via `grep -nE '^// ─{20}|^class |^function |^interface'` against the line ranges named in the agent's report). Two declared mid-trial pivots (initial pop-time-criteria → Gebauer-Möller insertion-time + Map-based normalForm). Independently re-verified 18/18. REVIEW at `test-8/REVIEW.md`. **Mid-tier discriminator** — four canonical bug surfaces (monomial-order correctness with the `degrevlex` right-to-left-with-inverted-comparison trap, polynomial arithmetic exactness under cancellation, normal-form termination on near-unit ideals, pair-handling efficiency under coefficient blow-up).
+
+B. **Repo state**: test-8 staging (DESCRIPTION.md / PROMPT.md / REFERENCES.md / golden / verifiers) committed and pushed to `claude/explore-repo-q3Jjj` (commit 520154c) before the agent ran; `solution.ts` + `REVIEW.md` + `WORKLOG.md` updates committed in a follow-up. After this session: eleven Opus 4.7 baselines (test-1..8, test-10, test-11, test-12); only test-9 (PSLQ) remains to close the 1..12 canonical sweep on Opus.
+
+---
+
+## ► WHAT THE 2026-04-28 SESSION ACCOMPLISHED (prior session)
 
 Chronological:
 
@@ -508,6 +515,16 @@ End with one or two paragraphs of methodology / benchmark-design observations.
 - Sandbox-purity note: `test-11/11-shewchuk-predicates/reference/predicates_reference.py` was added at 07:15 Apr 28, **after** the trial run at 23:29 Apr 27 — does not taint the trial result. Re-stage from `ts-bench-infra/problems/11-shewchuk-predicates/` for any cross-model `test-11-{sonnet,haiku,...}` to avoid copying the reference dir.
 - Methodology note: first trial in the suite to verify the correctness/speed tension architecture: naive `Math.sign(det)` evaluator passes ~25% of the test set; bignum-rational evaluator passes correctness but times out on Tier H; only Shewchuk-class adaptive arithmetic passes everything. Three-tier hierarchy doesn't map onto anything in problems 1..10. Sonnet 4.6 / Haiku 4.5 behaviour on this hierarchy is the most informative single cross-model data point currently available (alongside test-12 below).
 
+### `test-8/` — problem 08 Buchberger / Gröbner basis over ℚ (Opus 4.7, pure TS, **completes 1-8 + 10-12 canonical sweep**)
+- Result: `shape · candidate_in_input_ideal · groebner_basis_property · input_in_candidate_ideal`, all 18/18
+- 737 lines / 28 346 bytes
+- Wall-clock ~84m / 5.04M ms, 169 620 tokens, 107 tool uses, ~$3.5-4
+- Strategy: full pure-TS pipeline. Seven labelled sections in source order — §1 BigInt-`Q` rationals (private constructor + factory, normalised invariant, cached `ZERO`/`ONE`); §2 monomial helpers + `compareExp(order, a, b)` covering both `lex` (left-to-right scan) and `degrevlex` (degree, then last-differing-from-right with inverted comparison); §3 `Poly` as a strictly-descending term list with `polyMulTerm` / `polyAxBy` (linear merge of two descending lists); §4 Map-based `normalForm` (running poly held as `Map<expKey, term>` so subtracting `c · x^m · g` is O(\|g\|) regardless of \|p\|, avoiding the O(\|p\|) array-rebuild that would dominate on `rand_3_lex_n3_m4`) + textbook `sPolynomial`; §5 main loop driven by **Gebauer–Möller UPDATE** (Becker & Weispfenning Alg. 5.66 / Gebauer-Möller JSC 1988) — three labelled passes M (canonical lcm-representative among new pairs), F (drop coprime new pairs = Buchberger Criterion 1 at insertion time), B (prune existing pairs subsumed by the new generator's LM = Criterion 2 / chain criterion at insertion time); normal selection = linear scan for smallest LCM; defensive pop-time Criterion 1 belt-and-braces; unit-ideal short-circuit on any constant residue; §6 `reduceBasis` final inter-reduction to the unique reduced GB + `polyClearDenoms` integer-coefficient cosmetic / verifier-coercion-bug-dodge step; §7 stdin/stdout JSON glue (single import is `node:fs`).
+- File: `test-8/08-buchberger/solution.ts`
+- Constraint compliance: 2 grep hits, both inside the `polyClearDenoms` docblock describing a sympy 1.14 verifier-side `groebner.contains(...)` `CoercionFailed` bug that the function works around (multiply by lcm of denominators, divide by gcd of numerators — same ideal element up to scalar, GB property preserved). Single import `node:fs`. No `package.json` / `node_modules`.
+- Self-report calibration: per-check totals reproduced *exactly*; architecture description matches source order 1:1 (verified via `grep -nE '^// ─{20}|^class |^function |^interface'` against the line ranges named in the agent's report). Mid-trial pivot log (initial pop-time-criteria → Gebauer–Möller insertion-time + Map-based normalForm) is corroborated by the §5 docblock's discussion of the equivalent pop-time formulation.
+- Methodology note: third-most-expensive trial in the suite by wall-clock (after test-12 and test-11). Tokens (170k) and lines (737) are within margin of test-7 blossom (166k / 710 lines); the wall-clock and tool-use gap (84m vs 43m, 107 vs 54 tool uses) tracks two distinct mid-trial refactors rather than algorithmic difficulty per fix. The Gebauer–Möller call is the load-bearing engineering signal — pop-time-only application is what you get from a literal reading of the brief; insertion-time application is what every production-quality computer-algebra system does, and is what the agent went out of its way to refactor into. **Mid-tier discriminator** in the suite: four canonical bug surfaces (monomial-order correctness with the `degrevlex` right-to-left-with-inverted-comparison trap, polynomial arithmetic exactness under cancellation, normal-form termination on near-unit ideals, pair-handling efficiency under coefficient blow-up) — not as rich as test-4 or test-7, more than test-3 / test-6.
+
 ### `test-12/` — problem 12 shortest-round-trip float ↔ string (Opus 4.7, pure TS, **first no-direct-porting trial**)
 - Result: `shape · bitwise_correct · batch_complete`, all 26/26 (under `timeout 1.5s` per case)
 - 1 043 lines / 48 KB
@@ -518,7 +535,7 @@ End with one or two paragraphs of methodology / benchmark-design observations.
 - Self-report calibration: per-check totals reproduced exactly; speed-gate timings claimed in the report (~0.96s dtoa, ~1.15-1.30s strtod) match the orchestrator's independent measurements within ±10%.
 - Methodology note: **most expensive trial in the suite** by tokens (445k single-agent + partial continuation); narrowly above test-7 on cumulative wall-clock; substantially below test-11 on output size (1 043 vs 3 254 lines). The asymmetry is consistent with the no-porting constraint biting — test-11 was permitted (and did) faithfully port `predicates.c`, which compresses well into a "long but mechanical" translation; test-12 forced derivation, which produces shorter code that comes from more iteration cycles. The dtoa V8-native + audit pattern is a defensible engineering trade-off documented in REVIEW; for a benchmark variant that wants to measure the model's own dtoa hot-path implementation, the brief should add: "stage 1 must not delegate to `Number.prototype.toString()` or `Number.prototype.toFixed()` or `Number.prototype.toPrecision()`."
 
-### Cost-per-quality anchors (updated 2026-04-28)
+### Cost-per-quality anchors (updated 2026-05-01)
 
 | Trial | Lines | Time | Tokens | Cost | Verifier | Notes |
 |---|---|---|---|---|---|---|
@@ -529,6 +546,7 @@ End with one or two paragraphs of methodology / benchmark-design observations.
 | 05-lll pure-TS    | 296   | 9m     | 67k    | ~$1    | 22/22 | strictest pass |
 | 06-sw pure-TS     | 241   | 3m     | 34k    | ~$0.5  | 21/21 | **cheapest** / coverage |
 | 07-blossom pure-TS| 710   | 43m    | 166k   | ~$3.5  | 23/23 | strongest coordination-breadth discriminator |
+| 08-buchberger pure-TS | 737 | ~84m | 170k | ~$3.5-4 | 18/18 | mid-tier discriminator (4-bug) / Gebauer-Möller insertion-time pruning |
 | 10-risch shellout | 300   | 4m36s  | 41k    | ~$0.65 | 18/18 | side probe |
 | 10-risch pure-TS  | 2 265 | 24m59s | 159k   | ~$3    | 18/18 | gold-standard derivation |
 | 11-shewchuk pure-TS | 3 254 | 33m  | 271k   | ~$5-6  | 27/27 | first correctness/speed tension probe |
@@ -536,7 +554,7 @@ End with one or two paragraphs of methodology / benchmark-design observations.
 
 Pure-TS Risch is **~5× wall-clock and ~4× cost** vs the shellout for the same verifier score. Same model, just constraint differs.
 
-**Tier-discrimination thesis (after 2026-04-28):** problems 1, 3, 5, 6 are coverage anchors. Problems 2 and 4 are mid-tier discriminators. The three load-bearing discrimination probes are now **test-7 blossom** (coordination breadth across 8+ named pieces), **test-11 Shewchuk predicates** (correctness/speed tension; naive fails ~25%, bignum-rational times out, only adaptive-precision passes), and **test-12 float ↔ string** (correctness/speed tension *plus* derivation-vs-porting under the no-direct-porting hard constraint). These are roughly orthogonal failure axes — a model that fails any one of them tells you something specific about its weakness. Cross-model probes against Sonnet 4.6 / Haiku 4.5 should target test-11 / test-12 / test-7 first.
+**Tier-discrimination thesis (after 2026-05-01):** problems 1, 3, 5, 6 are coverage anchors. Problems 2, 4, and **8** are mid-tier discriminators. The three load-bearing discrimination probes remain **test-7 blossom** (coordination breadth across 8+ named pieces), **test-11 Shewchuk predicates** (correctness/speed tension; naive fails ~25%, bignum-rational times out, only adaptive-precision passes), and **test-12 float ↔ string** (correctness/speed tension *plus* derivation-vs-porting under the no-direct-porting hard constraint). These are roughly orthogonal failure axes — a model that fails any one of them tells you something specific about its weakness. Cross-model probes against Sonnet 4.6 / Haiku 4.5 should target test-11 / test-12 / test-7 first. **test-8 specifically should produce a Sonnet/Haiku discrimination signal on the `degrevlex` direction (right-to-left with inverted sign is the classical bug-magnet) and on `rand_3_lex_n3_m4` timing (without Gebauer-Möller insertion-time pruning, the pair queue blows up).**
 
 ---
 
@@ -611,9 +629,9 @@ Windows Downloads folder (for "geoguess what the user just clicked"):
 
 ---
 
-## ► WHAT WAS NOT FINISHED (updated 2026-04-28)
+## ► WHAT WAS NOT FINISHED (updated 2026-05-01)
 
-- **Phase-3 trials for problems 08, 09.** Opus 4.7 baselines now exist for problems 01-07, 10, 11, 12. Problem 08 (Buchberger) is the next canonical-sweep step; problem 09 (PSLQ) follows. After 08+09 the canonical 1..12 sweep is complete on Opus 4.7.
+- **Phase-3 trial for problem 09 (PSLQ).** Opus 4.7 baselines now exist for problems 01-08, 10, 11, 12. **test-8 (Buchberger) just completed (18/18, 2026-05-01)**; problem 09 is the last remaining canonical-sweep step. After 09 the canonical 1..12 sweep is complete on Opus 4.7.
 - **Cross-model sweep.** No Sonnet 4.6 / Haiku 4.5 / local-model trials yet. The three strongest discriminators are test-11 (correctness/speed tension), test-12 (correctness/speed + derivation-vs-porting), and test-7 (coordination breadth). Recommend running cross-model probes in that order — test-11 first (cheapest of the three), test-12 second (most informative on derivation), test-7 third.
 - **Marker batch** on the remaining 14 of 19 PDFs in `.marker-out/` — still not rerun. User explicit "do NOT rerun" still in effect; non-blocking for any current trial.
 - **Stehlé Ch.5** from the LLL Algorithm book — still on disk, not extracted. PROMPT 05 is sufficient with LLL 1982 excerpts only; the agent shipped 22/22 pure-TS without it (`test-5`).
@@ -633,6 +651,7 @@ cd /home/tobias/Projects/tstournament/test-4   && verifiers/run_tests.sh 04-schr
 cd /home/tobias/Projects/tstournament/test-5   && verifiers/run_tests.sh 05-lll              npx --yes tsx 05-lll/solution.ts
 cd /home/tobias/Projects/tstournament/test-6   && verifiers/run_tests.sh 06-stoer-wagner     npx --yes tsx 06-stoer-wagner/solution.ts
 cd /home/tobias/Projects/tstournament/test-7   && verifiers/run_tests.sh 07-blossom          npx --yes tsx 07-blossom/solution.ts
+cd /home/tobias/Projects/tstournament/test-8   && verifiers/run_tests.sh 08-buchberger       npx --yes tsx 08-buchberger/solution.ts
 cd /home/tobias/Projects/tstournament/test-10  && verifiers/run_tests.sh 10-risch            npx --yes tsx 10-risch/solution.ts
 cd /home/tobias/Projects/tstournament/test-10-shellout && verifiers/run_tests.sh 10-risch    npx --yes tsx 10-risch/solution.ts
 cd /home/tobias/Projects/tstournament/test-11 && verifiers/run_tests.sh 11-shewchuk-predicates timeout 1.5s npx --yes tsx 11-shewchuk-predicates/solution.ts
