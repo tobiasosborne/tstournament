@@ -260,7 +260,7 @@ independently.
 | hv0.4 | `bench/hypergeometric-pfq`: tier-graded test battery | hv0.3 ✓ |
 | ~~hv0.7~~ | ~~`packages/quadrature` arb-prec generalisation of integrate-1d~~ — **closed 2026-05-08, ADR-0021** | hv0.1 ✓ |
 | ~~hv0.8~~ | ~~`packages/meijer-core`: Mellin-Barnes contour quadrature~~ — **closed 2026-05-08, ADR-0022, worklog 073** | hv0.7 ✓ |
-| ~~hv0.9~~ | ~~`packages/meijer-core`: Braaksma asymptotic + hyperasymptotic~~ — **closed 2026-05-09 (v0.1: principal-sector algebraic only; full theorem follow-ups filed as `hv0.9.1`–`hv0.9.5`), ADR-0026, worklog 077** | hv0.1 ✓, hv0.2 ✓ |
+| ~~hv0.9~~ | ~~`packages/meijer-core`: Braaksma asymptotic + hyperasymptotic~~ — **closed 2026-05-09 (v0.1: principal-sector algebraic only; full theorem follow-ups filed as `hv0.9.1`–`hv0.9.5`), ADR-0026, worklog 078** | hv0.1 ✓, hv0.2 ✓ |
 | hv0.10 | `tools/meijer-g`: top-level dispatcher | 5 ✓, 6 ✓, 8 ✓, 9 ✓ |
 | hv0.11 | `bench/meijer-g`: full golden master battery | hv0.10 |
 | hv0.12 | tstournament problem-13 staging | hv0.11 |
