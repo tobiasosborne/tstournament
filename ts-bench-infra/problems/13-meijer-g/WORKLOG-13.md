@@ -5,19 +5,26 @@ Future-you (or the next agent) reads this *first* on session start.
 
 ---
 
-## ► WHERE WE ARE (last updated 2026-05-08, end of session 4)
+## ► WHERE WE ARE (last updated 2026-05-08, end of session 5)
 
-**Phase:** Arb-prec quadrature substrate shipped (Layer 4 — the
-`hv0.7` arb-prec generalisation of `packages/quadrature`). Mellin-
-Barnes contour quadrature (`hv0.8`) is now unblocked.
-**Bead state:** 4 of 12 children closed (`hv0.1`, `hv0.3`, `hv0.5`,
-`hv0.7`). New ADR-0021 documents the layering choice (library
-extension only, no new wire tool yet).
-**Next pickup:** **`hv0.8`** (Mellin-Barnes contour). The arb-prec
-quadrature substrate this needs is shipped; the natural design
-question is the BigComplex codomain extension (per-component
-real-driver split vs. codomain-generic helper) — that decision
-belongs in `hv0.8`'s design.
+**Phase:** Mellin-Barnes contour layer shipped (Layer 5 — the `hv0.8`
+contour orchestrator + the BigComplex G7K15 driver it consumes).
+Symbolic-side work (`hv0.2` cas-core AST extension) and asymptotic
+layer (`hv0.9`) are now the next algorithmic siblings.
+**Bead state:** 5 of 12 children closed (`hv0.1`, `hv0.3`, `hv0.5`,
+`hv0.7`, `hv0.8`). New ADR-0022 pins the BigComplex-codomain quadrature
+shape (parallel named driver, mirroring the BF/float64 precedent —
+*not* a per-component split or a generic over a field record).
+**Next pickup:** **`hv0.2`** (cas-core special-function AST extension).
+Unblocks both `hv0.6` (symbolic dispatch) and `hv0.9` (asymptotic
+layer). Alternative algorithmic siblings: `hv0.4`
+(bench/hypergeometric-pfq tier-graded battery), or follow-up beads on
+the contour ceiling (~22 dps achievable; future bead can lift via
+wider cgamma Stirling budget) and asymmetric truncation refinement.
+
+Prior session header (2026-05-08, session 4): arb-prec quadrature
+substrate shipped (Layer 4 — `hv0.7`). New ADR-0021 documents the
+layering choice (library extension only, no new wire tool yet).
 
 Prior session header (2026-05-08, session 3): Slater path shipped
 (Layer 3) and validated against true oracles. The "substrate `exp()`
@@ -57,19 +64,31 @@ inputs deliver ~45-50 dps — comfortably within Tier C/D spec.
 
 ## ► YOUR NEXT TASK
 
-**Recommended:** **`hv0.8`** — Mellin-Barnes contour quadrature in
-`@workbench/meijer-core`. The arb-prec quadrature substrate
-(`gaussKronrodAdaptiveBF`) shipped in `hv0.7` is the in-process
-surface this consumer needs; the natural extension is a `BigComplex`
-codomain (the contour integrand is complex-valued — `Γ`-product times
-`z^s` along a vertical line). ADR-0021 §"What we will not decide"
-flags the BigComplex extension as a deferred follow-up; `hv0.8`'s
-design picks the right shape (per-component split vs. codomain-
-generic helper).
+**Recommended:** **`hv0.2`** — cas-core special-function AST extension.
+The next prerequisite for both `hv0.6` (Adamchik-Marichev + Roach
+symbolic dispatch) and `hv0.9` (Braaksma asymptotic + hyperasymptotic
+layer); unblocks the most downstream work in the campaign DAG. The
+extension adds `BesselJ`, `BesselY`, `BesselI`, `BesselK`,
+`HypergeometricPFQ`, `WhittakerM`, `WhittakerW`, `ParabolicCylinderD`,
+`Erf`, `Erfc`, `ExpIntegralEi`, `Polylog`, `Gamma`, `Digamma`,
+`Polygamma`, `MeijerG` heads to the `cas-core` AST plus their `cas-diff`
+derivative rules — see `PLAN.md` Layer 1 for the full spec. Does *not*
+roll a new AST.
 
-Alternative algorithmic siblings if you want to push other paths:
-`hv0.2` (cas-core special-function AST extension), `hv0.4`
-(bench/hypergeometric-pfq tier-graded battery).
+Alternative algorithmic siblings:
+* **`hv0.4`** — bench/hypergeometric-pfq tier-graded battery
+  (standalone validation surface for the inner-pFq path that Slater +
+  asymptotic both use). No upstream dependencies beyond `hv0.3` ✓.
+* **Follow-ups on `hv0.8`** — file beads to lift the ~22-dps contour
+  ceiling (widen `cgamma`'s Stirling budget or compute the integrand
+  via `clgamma` directly to avoid Γ-product cancellation), or to add
+  asymmetric contour offset for non-real `arg(z)` cases.
+
+(`hv0.8` shipped this session — see `scientist-workbench` worklog 073
+and ADR-0022. The contour layer covers the |z|=1 quarantine band where
+Slater refuses, with structured refusals for non-convergent contours
+`2(m+n) ≤ p+q` and overlapping pole clusters
+`max{Re(a_j)} − 1 ≥ min{Re(b_j)}`.)
 
 Below: the *original* hv0.5 brief, kept for reference now that the
 work is closed:
@@ -183,14 +202,14 @@ independently.
 | hv0.2 | cas-core: special-function AST vocabulary extension | hv0.1 ✓ |
 | hv0.6 | `packages/meijer-core`: Adamchik-Marichev + Roach symbolic dispatch | hv0.2 |
 | hv0.4 | `bench/hypergeometric-pfq`: tier-graded test battery | hv0.3 ✓ |
-| hv0.7 | `packages/quadrature` arb-prec generalisation of integrate-1d | hv0.1 ✓ |
-| hv0.8 | `packages/meijer-core`: Mellin-Barnes contour quadrature | hv0.7, hv0.2 |
+| ~~hv0.7~~ | ~~`packages/quadrature` arb-prec generalisation of integrate-1d~~ — **closed 2026-05-08, ADR-0021** | hv0.1 ✓ |
+| ~~hv0.8~~ | ~~`packages/meijer-core`: Mellin-Barnes contour quadrature~~ — **closed 2026-05-08, ADR-0022, worklog 073** | hv0.7 ✓ |
 | hv0.9 | `packages/meijer-core`: Braaksma asymptotic + hyperasymptotic | hv0.1 ✓, hv0.2 |
-| hv0.10 | `tools/meijer-g`: top-level dispatcher | 5 ✓, 6, 8, 9 |
+| hv0.10 | `tools/meijer-g`: top-level dispatcher | 5 ✓, 6, 8 ✓, 9 |
 | hv0.11 | `bench/meijer-g`: full golden master battery | hv0.10 |
 | hv0.12 | tstournament problem-13 staging | hv0.11 |
 
-**Unblocked next** (no open dependencies): hv0.2, hv0.4, hv0.7. (`4ne` closed as false alarm.)
+**Unblocked next** (no open dependencies): hv0.2, hv0.4. (`4ne` closed as false alarm; `hv0.7` and `hv0.8` closed.)
 
 ---
 
