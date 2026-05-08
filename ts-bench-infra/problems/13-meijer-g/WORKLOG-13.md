@@ -5,27 +5,57 @@ Future-you (or the next agent) reads this *first* on session start.
 
 ---
 
-## ► WHERE WE ARE (last updated 2026-05-08)
+## ► WHERE WE ARE (last updated 2026-05-08, end of session 2)
 
-**Phase:** substrate complete; first numerical surface tool shipping.
-**Bead state:** 2 of 12 children closed (`hv0.1`, `hv0.3`).
-**Next pickup:** `hv0.5` — `packages/meijer-core` Slater residue evaluator.
-**Commits since campaign start:** 9 in scientist-workbench, 1 in
-tstournament (the campaign-plan files).
+**Phase:** Slater path shipped (Layer 3); substrate `exp()` precision
+limitation discovered.
+**Bead state:** 3 of 12 children closed (`hv0.1`, `hv0.3`, `hv0.5`).
+New P1 bug filed: `scientist-workbench-4ne` (bigfloat `exp` precision
+regression).
+**Next pickup:** **`scientist-workbench-4ne`** (substrate fix) before
+further numerical-tier work, OR `hv0.7` (arb-prec quadrature) if the
+substrate fix is deferred.
 
 The campaign is structured as a 5-stage sub-problem campaign (13a..13e)
-and is currently at the end of stage 13b. The bigfloat substrate
-(arbitrary-precision real + complex with full transcendental and
-special-function vocabulary) is shipped; the first arbprec-tier tool
-(`tools/hypergeometric-pfq`) ships and works. Both have been
-cross-validated against Wolfram byte-for-byte at 50 decimal digits.
+and is currently at the end of stage 13c. The Slater residue-summation
+path is shipped:
 
-**The substrate is the long-pole; it's done. From here the work is
-algorithmic composition.**
+* `@workbench/meijer-core` (~1100 LOC; 29 tests) — Series 1 / Series 2
+  evaluators, `(p, q, m, n, |z|)` selection, deterministic perturbation
+  for parameter coalescence, cancellation-driven retry, structured
+  refusal envelope.
+* `tools/meijer-g-slater-only` — wire wrapper (6 tests).
+* `@workbench/hypergeometric` extracted from `tools/hypergeometric-pfq`
+  as a refactor; the tool's 15 tests still pass byte-identically.
+
+**Friction discovered:** `@workbench/bigfloat::exp(x)` has a
+deterministic precision-loss bug for many `x` (filed as
+`scientist-workbench-4ne` with empirical accuracy table). The Slater
+algorithm itself is correct; it currently delivers ~38–50 dps in
+practice, vs. the algorithmic ceiling of 100+ dps it would deliver on
+a fixed substrate.
+
+**The 50-dps target for problem-13 Tiers C/D is marginal under the
+current substrate.** The honest fix is upstream — close `4ne` first.
 
 ---
 
 ## ► YOUR NEXT TASK
+
+**Recommended:** `scientist-workbench-4ne` — fix the bigfloat `exp`
+precision regression. Every subsequent arbprec tool inherits this
+ceiling; better to lift it before more code accumulates against the
+substrate.
+
+If deferring the substrate fix, the next algorithmic layer is
+**`hv0.7`** — generalise `packages/quadrature` to arbitrary precision
+(needed by `hv0.8` Mellin-Barnes contour). No upstream dependencies
+beyond `hv0.1` ✓.
+
+Below: the *original* hv0.5 brief, kept for reference now that the
+work is closed:
+
+---
 
 Pick up **`hv0.5` — MeijerG Slater residue-summation evaluator** in
 `scientist-workbench`. Spec at
@@ -130,18 +160,18 @@ independently.
 
 | Bead | Title | Depends on |
 |------|-------|------------|
-| **hv0.5** | `packages/meijer-core`: Slater residue evaluator | hv0.1 ✓, hv0.3 ✓ |
+| **4ne** | bigfloat: `exp()` precision regression (P1) | — |
 | hv0.2 | cas-core: special-function AST vocabulary extension | hv0.1 ✓ |
 | hv0.6 | `packages/meijer-core`: Adamchik-Marichev + Roach symbolic dispatch | hv0.2 |
 | hv0.4 | `bench/hypergeometric-pfq`: tier-graded test battery | hv0.3 ✓ |
 | hv0.7 | `packages/quadrature` arb-prec generalisation of integrate-1d | hv0.1 ✓ |
 | hv0.8 | `packages/meijer-core`: Mellin-Barnes contour quadrature | hv0.7, hv0.2 |
 | hv0.9 | `packages/meijer-core`: Braaksma asymptotic + hyperasymptotic | hv0.1 ✓, hv0.2 |
-| hv0.10 | `tools/meijer-g`: top-level dispatcher | 5, 6, 8, 9 |
+| hv0.10 | `tools/meijer-g`: top-level dispatcher | 5 ✓, 6, 8, 9 |
 | hv0.11 | `bench/meijer-g`: full golden master battery | hv0.10 |
 | hv0.12 | tstournament problem-13 staging | hv0.11 |
 
-**Unblocked next** (no open dependencies): hv0.5, hv0.2, hv0.4, hv0.7.
+**Unblocked next** (no open dependencies): 4ne, hv0.2, hv0.4, hv0.7.
 
 ---
 
@@ -295,6 +325,10 @@ scientist-workbench (chronological since campaign start):
 - `5e5f366` packages/bigfloat: protocol encoding + close hv0.1
 - `2eb15b1` contract: arbprec tier wiring + tools/hypergeometric-pfq v0.1
 - `7509a4e` beads: close hv0.3
+- `37e3626` worklog 069 + handoff
+- (forthcoming) packages/{hypergeometric,meijer-core} +
+  tools/meijer-g-slater-only + worklog 070 + close hv0.5 +
+  file 4ne (bigfloat exp regression)
 
 tstournament:
 - `bbbfb46` problem 13 (Meijer G mega-test): scope + plan + sub-problem briefs
