@@ -5,16 +5,15 @@ Future-you (or the next agent) reads this *first* on session start.
 
 ---
 
-## ► WHERE WE ARE (last updated 2026-05-08, end of session 2)
+## ► WHERE WE ARE (last updated 2026-05-08, end of session 3)
 
-**Phase:** Slater path shipped (Layer 3); substrate `exp()` precision
-limitation discovered.
+**Phase:** Slater path shipped (Layer 3) and validated against true
+oracles. The "substrate `exp()` precision regression" filed at end of
+session 2 was a misdiagnosis — substrate is byte-identical to mpmath
+at every tested digit; bead `4ne` closed as false alarm.
 **Bead state:** 3 of 12 children closed (`hv0.1`, `hv0.3`, `hv0.5`).
-New P1 bug filed: `scientist-workbench-4ne` (bigfloat `exp` precision
-regression).
-**Next pickup:** **`scientist-workbench-4ne`** (substrate fix) before
-further numerical-tier work, OR `hv0.7` (arb-prec quadrature) if the
-substrate fix is deferred.
+**Next pickup:** **`hv0.7`** (arb-prec quadrature). No substrate work
+needed.
 
 The campaign is structured as a 5-stage sub-problem campaign (13a..13e)
 and is currently at the end of stage 13c. The Slater residue-summation
@@ -28,29 +27,33 @@ path is shipped:
 * `@workbench/hypergeometric` extracted from `tools/hypergeometric-pfq`
   as a refactor; the tool's 15 tests still pass byte-identically.
 
-**Friction discovered:** `@workbench/bigfloat::exp(x)` has a
-deterministic precision-loss bug for many `x` (filed as
-`scientist-workbench-4ne` with empirical accuracy table). The Slater
-algorithm itself is correct; it currently delivers ~38–50 dps in
-practice, vs. the algorithmic ceiling of 100+ dps it would deliver on
-a fixed substrate.
+**Substrate audit (session 3, 2026-05-08).** The "P1 bigfloat `exp`
+precision regression" filed at end of session 2 (bead `4ne`) is a
+false alarm. Cross-validated against mpmath at 200-dps reference
+precision across 14 inputs × 5 target precisions: 70 of 70 cases
+byte-identical. The bead's empirical accuracy table was generated
+against bogus "truth" values — they don't match any cited oracle.
+The Slater identity tests' rel-err thresholds (45 dps at 50 dps target)
+are at the *Slater algorithm's* own ulp budget (Γ-products + prefactor
++ residue summation), not a substrate cap. Surgical hardening was
+nonetheless applied to the substrate (m-aware bit budget + range
+gate); see `scientist-workbench` worklog 071. Bead `4ne` closed.
 
-**The 50-dps target for problem-13 Tiers C/D is marginal under the
-current substrate.** The honest fix is upstream — close `4ne` first.
+**The 50-dps target for problem-13 Tiers C/D is achievable under the
+current substrate.** Easy-input identity tests deliver ~77 dps; harder
+inputs deliver ~45-50 dps — comfortably within Tier C/D spec.
 
 ---
 
 ## ► YOUR NEXT TASK
 
-**Recommended:** `scientist-workbench-4ne` — fix the bigfloat `exp`
-precision regression. Every subsequent arbprec tool inherits this
-ceiling; better to lift it before more code accumulates against the
-substrate.
+**Recommended:** **`hv0.7`** — generalise `packages/quadrature` to
+arbitrary precision (needed by `hv0.8` Mellin-Barnes contour). No
+upstream dependencies beyond `hv0.1` ✓.
 
-If deferring the substrate fix, the next algorithmic layer is
-**`hv0.7`** — generalise `packages/quadrature` to arbitrary precision
-(needed by `hv0.8` Mellin-Barnes contour). No upstream dependencies
-beyond `hv0.1` ✓.
+Alternative algorithmic siblings if you want to push other paths:
+`hv0.2` (cas-core special-function AST extension), `hv0.4`
+(bench/hypergeometric-pfq tier-graded battery).
 
 Below: the *original* hv0.5 brief, kept for reference now that the
 work is closed:
@@ -160,7 +163,7 @@ independently.
 
 | Bead | Title | Depends on |
 |------|-------|------------|
-| **4ne** | bigfloat: `exp()` precision regression (P1) | — |
+| ~~4ne~~ | ~~bigfloat: `exp()` precision regression (P1)~~ — **closed as false alarm 2026-05-08, see `scientist-workbench` worklog 071** | — |
 | hv0.2 | cas-core: special-function AST vocabulary extension | hv0.1 ✓ |
 | hv0.6 | `packages/meijer-core`: Adamchik-Marichev + Roach symbolic dispatch | hv0.2 |
 | hv0.4 | `bench/hypergeometric-pfq`: tier-graded test battery | hv0.3 ✓ |
@@ -171,7 +174,7 @@ independently.
 | hv0.11 | `bench/meijer-g`: full golden master battery | hv0.10 |
 | hv0.12 | tstournament problem-13 staging | hv0.11 |
 
-**Unblocked next** (no open dependencies): 4ne, hv0.2, hv0.4, hv0.7.
+**Unblocked next** (no open dependencies): hv0.2, hv0.4, hv0.7. (`4ne` closed as false alarm.)
 
 ---
 
