@@ -5,15 +5,25 @@ Future-you (or the next agent) reads this *first* on session start.
 
 ---
 
-## ► WHERE WE ARE (last updated 2026-05-08, end of session 3)
+## ► WHERE WE ARE (last updated 2026-05-08, end of session 4)
 
-**Phase:** Slater path shipped (Layer 3) and validated against true
-oracles. The "substrate `exp()` precision regression" filed at end of
-session 2 was a misdiagnosis — substrate is byte-identical to mpmath
-at every tested digit; bead `4ne` closed as false alarm.
-**Bead state:** 3 of 12 children closed (`hv0.1`, `hv0.3`, `hv0.5`).
-**Next pickup:** **`hv0.7`** (arb-prec quadrature). No substrate work
-needed.
+**Phase:** Arb-prec quadrature substrate shipped (Layer 4 — the
+`hv0.7` arb-prec generalisation of `packages/quadrature`). Mellin-
+Barnes contour quadrature (`hv0.8`) is now unblocked.
+**Bead state:** 4 of 12 children closed (`hv0.1`, `hv0.3`, `hv0.5`,
+`hv0.7`). New ADR-0021 documents the layering choice (library
+extension only, no new wire tool yet).
+**Next pickup:** **`hv0.8`** (Mellin-Barnes contour). The arb-prec
+quadrature substrate this needs is shipped; the natural design
+question is the BigComplex codomain extension (per-component
+real-driver split vs. codomain-generic helper) — that decision
+belongs in `hv0.8`'s design.
+
+Prior session header (2026-05-08, session 3): Slater path shipped
+(Layer 3) and validated against true oracles. The "substrate `exp()`
+precision regression" filed at end of session 2 was a misdiagnosis —
+substrate is byte-identical to mpmath at every tested digit; bead
+`4ne` closed as false alarm.
 
 The campaign is structured as a 5-stage sub-problem campaign (13a..13e)
 and is currently at the end of stage 13c. The Slater residue-summation
@@ -47,9 +57,15 @@ inputs deliver ~45-50 dps — comfortably within Tier C/D spec.
 
 ## ► YOUR NEXT TASK
 
-**Recommended:** **`hv0.7`** — generalise `packages/quadrature` to
-arbitrary precision (needed by `hv0.8` Mellin-Barnes contour). No
-upstream dependencies beyond `hv0.1` ✓.
+**Recommended:** **`hv0.8`** — Mellin-Barnes contour quadrature in
+`@workbench/meijer-core`. The arb-prec quadrature substrate
+(`gaussKronrodAdaptiveBF`) shipped in `hv0.7` is the in-process
+surface this consumer needs; the natural extension is a `BigComplex`
+codomain (the contour integrand is complex-valued — `Γ`-product times
+`z^s` along a vertical line). ADR-0021 §"What we will not decide"
+flags the BigComplex extension as a deferred follow-up; `hv0.8`'s
+design picks the right shape (per-component split vs. codomain-
+generic helper).
 
 Alternative algorithmic siblings if you want to push other paths:
 `hv0.2` (cas-core special-function AST extension), `hv0.4`
