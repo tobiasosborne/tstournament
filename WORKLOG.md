@@ -1,6 +1,8 @@
 # tstournament — session worklog (handoff for the next orchestrator agent)
 
-Last updated: 2026-05-01, end of Opus 4.7 (1M) orchestrator session — Phase-3 trial `test-8` (Buchberger / Gröbner basis over ℚ) green 18/18, pure-TS, with Gebauer–Möller insertion-time pair pruning. Eleven Opus 4.7 baselines now exist (test-1..8, test-10, test-11, test-12). Twelve problems live; pending baseline trial: 09 only. Repo committed + pushed at end of session.
+Last updated: 2026-05-08, end of Opus 4.7 (1M) orchestrator session — **problem 13 (Meijer G mega-test) added to the suite as a multi-month, multi-session campaign.** ADR-grade design + scope locked down; campaign tracked in `scientist-workbench` beads under epic `scientist-workbench-hv0`. Substrate work begun: `packages/bigfloat` (arbitrary-precision real + complex with Γ / lgamma / digamma / trigamma / full transcendental and special-function vocabulary; 229 tests; cross-validated to 50 dps against Wolfram byte-for-byte) and `tools/hypergeometric-pfq` (first arbprec-tier tool; 15 tests) both shipped and closed. Campaign-specific worklog at [`ts-bench-infra/problems/13-meijer-g/WORKLOG-13.md`](ts-bench-infra/problems/13-meijer-g/WORKLOG-13.md). 2 of 12 child beads closed; next pickup is `hv0.5` (MeijerG Slater path).
+
+Prior session header (2026-05-01): Phase-3 trial `test-8` (Buchberger / Gröbner basis over ℚ) green 18/18, pure-TS, with Gebauer–Möller insertion-time pair pruning. Eleven Opus 4.7 baselines now exist (test-1..8, test-10, test-11, test-12). Twelve problems live; pending baseline trial: 09 only.
 
 Prior session header (2026-04-28): Phase-3 trial `test-11` (Shewchuk adaptive predicates) green 27/27, problem 12 (shortest-round-trip float ↔ string) added to `ts-bench-infra/` with no-direct-porting hard constraint, Phase-3 trial `test-12` green 26/26 after a real-world orchestration outage event.
 
@@ -8,7 +10,9 @@ Prior session header (2026-04-28): Phase-3 trial `test-11` (Shewchuk adaptive pr
 
 ## ► YOUR NEXT TASK
 
-Three reasonable paths. The user has not pinned one; default is (a) unless they signal otherwise.
+The user is currently driving the **problem-13 Meijer G mega-test campaign** — see [`ts-bench-infra/problems/13-meijer-g/WORKLOG-13.md`](ts-bench-infra/problems/13-meijer-g/WORKLOG-13.md) for the campaign-level state, dependencies, and pickup. **Default next pickup: `hv0.5` (MeijerG Slater residue evaluator) in `scientist-workbench`.** The campaign is structured as a 5-stage sub-problem set (13a..13e) and is currently between stages 13b (substrate done) and 13c (Slater path).
+
+If the user wants to push other paths instead, the prior open work is still here:
 
 **(a) Sonnet 4.6 cross-model probe.** Eleven Opus 4.7 baselines now exist (test-1..8, test-10, test-11, test-12) — a strong corpus to start cross-model. The three load-bearing discriminators are **test-7 blossom** (eight named pieces, no single load-bearing decision resolves the others), **test-11 Shewchuk predicates** (correctness/speed tension; naive ~25% fail, bigint-rational times out, only Shewchuk-class adaptive arithmetic passes), and **test-12 float↔string** (correctness/speed tension *plus* the no-direct-porting constraint that punishes transliteration). These are roughly orthogonal failure axes — a model that fails any one of them tells you something specific about its weakness. Stage as `test-N-sonnet/` and only the model differs. Recommend running test-11 first (cheapest of the three, clearest tier hierarchy), then test-12 (most informative on derivation vs porting), then test-7 (coordination breadth).
 
@@ -16,9 +20,35 @@ Three reasonable paths. The user has not pinned one; default is (a) unless they 
 
 Last remaining problem from 1..12 without an Opus baseline. Closes the canonical sweep (test-8 just completed). Python shortcut is `mpmath.pslq` (already in the FORBIDDEN_TOKENS list).
 
-**(c) Add problem 13** — the user has not signalled this, but the benchmark could continue to grow. Problems 11 and 12 both broke new ground (correctness/speed tension; no-direct-porting); a problem 13 candidate would need to introduce a *new* failure axis not already covered. No proposal currently on the table.
+Concrete protocol for any of (a/b) is in §"Staging recipe" / §"Agent brief template" / §"Review scorecard" below. Do not start until you've read §"Don'ts".
 
-Concrete protocol for any of (a/b/c) is in §"Staging recipe" / §"Agent brief template" / §"Review scorecard" below. Do not start until you've read §"Don'ts".
+---
+
+## ► WHAT THE 2026-05-07 / 2026-05-08 SESSION ACCOMPLISHED (current campaign)
+
+A. **Problem 13 (Meijer G) added to `ts-bench-infra/`** as a *mega-test* — substantially larger than problems 11+12 combined; first multi-session campaign in the suite. The problem demands all three axes simultaneously: curated symbolic reduction table, arbitrary-precision numerical evaluation (mpmath/Arb-class), and the dispatch between them. Bar: better than Mathematica. Plan files at `ts-bench-infra/problems/13-meijer-g/`:
+   - `DESCRIPTION.md` — function definition, mega-test framing, four-failure-mode taxonomy.
+   - `PROMPT.md` — campaign-level brief; constraints (pure-TS, no-direct-porting extended from problem 12 to forbid mpmath / SymPy / Wolfram source); workbench-reuse mandate.
+   - `PLAN.md` — seven-layer implementation stack with workbench-reuse map (NEW vs EXTEND vs GENERALISE per layer); dependency DAG.
+   - `REFERENCES.md` — load-bearing bibliography (~40 of the ~95 trawled). Four-corner foundation: Slater 1966 ch. 5, Adamchik-Marichev 1990 ISSAC, Roach 1996/97 ISSAC, Braaksma 1964 Compositio Math, Johansson 2009 mpmath blog.
+   - `ORACLE-STRATEGY.md` — Wolfram + mpmath consensus at 110 dps; Tier-0 closed-form RHS-evaluated anchors; quarantine band `|z|=1 ∧ p=q ∧ m+n=p`.
+   - `VERIFIER-PROTOCOL.md` — three output categories (symbolic / numerical / out-of-region); K=20 multi-point sampling for symbolic equality; tier-by-tier tolerance ladder.
+   - `WORKLOG-13.md` — campaign-specific living worklog (read first on session start).
+   - 5 sub-problem `DESCRIPTION.md` files in `sub-problems/13a..e/`.
+
+B. **Beads registered in `scientist-workbench`** under epic `scientist-workbench-hv0` (P1, label `ts-bench-meijer-g`) with 12 children covering the seven-layer plan. **2 closed:** `hv0.1` (`packages/bigfloat`), `hv0.3` (`tools/hypergeometric-pfq`). **10 open** including `hv0.5` (MeijerG Slater — next), `hv0.2` (cas-core AST extension), `hv0.6` (symbolic dispatch), `hv0.7` (integrate-1d arb-prec generalisation), `hv0.8` (Mellin-Barnes contour), `hv0.9` (Braaksma asymptotic), `hv0.10` (top-level dispatcher), `hv0.11` (bench), `hv0.12` (tstournament staging), `hv0.4` (bench/hypergeometric-pfq).
+
+C. **`packages/bigfloat` shipped in `scientist-workbench`** (~5400 LOC; 229 tests; closed bead `hv0.1`). Per ADR-0020. Public surface: BigFloat / BigComplex types with full arithmetic + transcendentals + special functions (Γ, lgamma, digamma, trigamma) + protocol encoding via `tagged "bigfloat" / "bigcomplex"`. Cross-validated against Wolfram `wolframscript -code 'N[..., 50]'` byte-for-byte.
+
+D. **`tools/hypergeometric-pfq` shipped** (closed bead `hv0.3`). First arbprec-tier tool. Direct power series with cancellation detection + bumped-precision retry; closed-form 0F0 and 1F0 fast paths; honest refusal for `p > q+1` and `|z| ≥ 0.95` with `p == q+1`. Cross-validated identities at 50 dps: 0F0(;;1)=e, 1F1(1;1;2)=e², 2F1(1,1;2;1/2)=2log(2), 1F0(2;;1/2)=4, pFq(a;b;0)=1.
+
+E. **Contract package extended** for `arbprec: true` (ADR-0020): `ToolDefinition` gains the third additive tier flag; mutual-exclusion check in `executeToolDef` generalised to three-way; `mergedFlags` in the runner conditionally adds `--precision=<int>` (default 50 dps) as a standard flag for arbprec tools.
+
+F. **ADR-0020 + lockstep doc updates** in scientist-workbench: PRD §6.1 four-tier model with named guarantees; README "Hard requirements" mirror; CLAUDE.md hallucination-risk callout extended from three flags to four; worklog shards 068 (ADR) and 069 (substrate ship + handoff).
+
+G. **9 commits pushed** to scientist-workbench `main` (2026-05-07 to 2026-05-08): `6ef18f2` (beads register), `95267eb` (ADR-0020), `1f32a5e` (substrate v0.1), `e1539f2` (transcendentals), `391a53d` (trig + pow), `c321b5e` (special functions), `a721cc0` (BigComplex), `5e5f366` (encoding + close hv0.1), `2eb15b1` (arbprec wiring + tools/hypergeometric-pfq), `7509a4e` (close hv0.3). One commit pushed to tstournament `main`: `bbbfb46` (problem-13 plan files).
+
+H. **Substrate is the long-pole; it's done.** From here the work is algorithmic composition (Slater, contour, asymptotic, dispatcher) on top of the existing primitives. Future sessions can pick up `hv0.5` directly without re-establishing the substrate layer.
 
 ---
 
