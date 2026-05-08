@@ -5,45 +5,64 @@ Future-you (or the next agent) reads this *first* on session start.
 
 ---
 
-## ► WHERE WE ARE (last updated 2026-05-09, end of session 8)
+## ► WHERE WE ARE (last updated 2026-05-09, end of session 9)
 
-**Phase:** Braaksma far-field asymptotic shipped (Layer 6 —
-`hv0.9` v0.1). Principal-sector algebraic dominant asymptotic for
-`|z| → ∞`: the n-pole Slater Series 2 read asymptotically and
-truncated at its **optimal** index (Olver 1974 §3.7
-"superasymptotic" — stop when `|t_{k+1}| ≥ |t_k|`; report
-`|t_{k*+1}|` as error estimate). Cross-validated against mpmath
-at 80 dps (5 cases) and Wolfram at 60 dps (5 cases); Slater
-agreement on overlap region tested at 30 dps and confirmed to
-~25 dps. Structured refusal envelope (`stokes-line`,
-`secondary-sector`, `small-z`, `non-asymptotic-regime`,
-`no-pole-residues`, `input-error`) keeps wrong-valued answers
-out of out-of-scope sectors; full Braaksma theorem (E-series +
-Stokes-multiplier table + secondary-sector connection
-coefficients + hyperasymptotic refinement) deferred to follow-up
-beads `hv0.9.1`–`hv0.9.5`. ADR-0026 pins the design. Layer-7
-top-level dispatcher (`hv0.10`) is now **fully** unblocked —
-all four numerical paths (Slater, contour, asymptotic, plus the
-symbolic dispatcher) are in place.
+**Phase:** `bench/hypergeometric-pfq` tier-graded battery shipped
+(`hv0.4`). Validation surface for the inner pFq path that Slater +
+asymptotic + dispatcher all consume. 53 cases across 6 tiers
+(closed-form anchors, generic happy, large parameters,
+near-unit-circle, parameter coalescence, refusals); ~282 invariant
+assertions; mpmath at 80 dps + Wolfram at `precision + 30` dps
+cross-validated (49 of 49 numerical cases agree, 4 structural
+refusals); 5 mutation-prove RED tests. Per ADR-0019 bench
+discipline; sibling of `bench/linalg-{qr,svd,eigh}` and
+`bench/integrate-ode-*`. `bun run check` green.
 
-**Bead state:** 8 of 12 children closed (`hv0.1`, `hv0.2`,
-`hv0.3`, `hv0.5`, `hv0.6`, `hv0.7`, `hv0.8`, `hv0.9`). New
-ADR-0026 pins the asymptotic v0.1 design (algebraic-only,
-optimal-truncation, principal-sector cap with structured refusal
-elsewhere, mirror of `MeijerGContourResult` for hv0.10
-dispatcher symmetry).
+Surfaced two follow-up beads worth filing: (1) P1 — compose
+`runWorkbench` doesn't merge ADR-0020's standard `--precision`
+flag for arbprec tools (the bench routes via `executeToolDef`
+directly as workaround); (2) P2 — analytic continuation for
+`|z| ≥ 0.99` to reclaim the famous `2F1(1, 1; 2; -1) = log 2`
+Abel-summation identity (currently in Tier E refusal).
+
+Prior session header (2026-05-09, session 8): Braaksma
+far-field asymptotic shipped (Layer 6 — `hv0.9` v0.1).
+Principal-sector algebraic dominant asymptotic for `|z| → ∞`:
+the n-pole Slater Series 2 read asymptotically and truncated at
+its **optimal** index (Olver 1974 §3.7 "superasymptotic" — stop
+when `|t_{k+1}| ≥ |t_k|`; report `|t_{k*+1}|` as error estimate).
+Cross-validated against mpmath at 80 dps (5 cases) and Wolfram
+at 60 dps (5 cases); Slater agreement on overlap region tested
+at 30 dps and confirmed to ~25 dps. Structured refusal envelope
+(`stokes-line`, `secondary-sector`, `small-z`,
+`non-asymptotic-regime`, `no-pole-residues`, `input-error`)
+keeps wrong-valued answers out of out-of-scope sectors; full
+Braaksma theorem (E-series + Stokes-multiplier table +
+secondary-sector connection coefficients + hyperasymptotic
+refinement) deferred to follow-up beads `hv0.9.1`–`hv0.9.5`.
+ADR-0026 pins the design. Layer-7 top-level dispatcher (`hv0.10`)
+is now **fully** unblocked — all four numerical paths (Slater,
+contour, asymptotic, plus the symbolic dispatcher) are in place.
+
+**Bead state:** 9 of 12 children closed (`hv0.1`, `hv0.2`,
+`hv0.3`, `hv0.4`, `hv0.5`, `hv0.6`, `hv0.7`, `hv0.8`, `hv0.9`).
+ADR-0026 pins the asymptotic v0.1 design.
 
 **Next pickup:** **`hv0.10`** (top-level `tools/meijer-g`
 dispatcher) — the integration layer that composes the four
-algorithmic layers into a single user-facing tool. The load-bearing
-test of the seven-layer stack: symbolic-first → Slater → contour →
-asymptotic-or-refuse. Every layer it depends on is now in place.
-Or `hv0.4` (bench/hypergeometric-pfq), or follow-up beads on the
-hv0.9 deferred pieces (`hv0.9.1`–`hv0.9.5`: full Braaksma
-theorem, hyperasymptotic, symmetric `|z| → 0`,
-secondary-sector handling), or the contour ceiling (~22 dps;
-widen `cgamma` Stirling budget), or the `hv0.6.*` rule corpus
-follow-ups (PBM Vol 3, Mathai, Wolfram Functions Site).
+algorithmic layers into a single user-facing tool. The
+load-bearing test of the seven-layer stack: symbolic-first →
+Slater → contour → asymptotic-or-refuse. Every layer it depends
+on is now in place; the `bench/hypergeometric-pfq` validation
+surface from `hv0.4` is the discrimination floor for the
+dispatcher's pFq lane.
+
+Alternative pickups: follow-up beads on the hv0.9 deferred
+pieces (`hv0.9.1`–`hv0.9.5`: full Braaksma theorem,
+hyperasymptotic, symmetric `|z| → 0`, secondary-sector handling),
+the contour ceiling (~22 dps; widen `cgamma` Stirling budget),
+or the `hv0.6.*` rule corpus follow-ups (PBM Vol 3, Mathai,
+Wolfram Functions Site).
 
 Prior session header (2026-05-08, session 7): Adamchik-Marichev
 + Roach symbolic dispatch shipped (Layer 4 — `hv0.6`); ADR-0025.
@@ -111,12 +130,12 @@ entry point. **Every layer it depends on is now shipped** —
 `meijergSlater`, `meijergSymbolic`, `meijergContour`, and
 `meijergAsymptotic` all expose mirrored result envelopes so the
 dispatcher's compose code is one switch statement. ~500-LOC
-orchestrator with routing rules + a thin wire wrapper.
+orchestrator with routing rules + a thin wire wrapper. The
+`bench/hypergeometric-pfq` validation surface (`hv0.4` ✓) is the
+discrimination floor for the inner pFq path the dispatcher's Slater
+and asymptotic lanes consume.
 
 Alternative algorithmic siblings:
-* **`hv0.4`** — bench/hypergeometric-pfq tier-graded battery
-  (standalone validation surface for the inner-pFq path that Slater +
-  asymptotic both use). No upstream dependencies beyond `hv0.3` ✓.
 * **Follow-ups on `hv0.9`** — file beads `hv0.9.1`–`hv0.9.5` to
   complete the Braaksma theorem: full H_{p,q} algebraic series
   (n<p regime), Stokes-line connection coefficients, Olde
