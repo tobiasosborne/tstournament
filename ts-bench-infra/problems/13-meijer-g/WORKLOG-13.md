@@ -5,22 +5,32 @@ Future-you (or the next agent) reads this *first* on session start.
 
 ---
 
-## ► WHERE WE ARE (last updated 2026-05-08, end of session 5)
+## ► WHERE WE ARE (last updated 2026-05-08, end of session 6)
 
-**Phase:** Mellin-Barnes contour layer shipped (Layer 5 — the `hv0.8`
-contour orchestrator + the BigComplex G7K15 driver it consumes).
-Symbolic-side work (`hv0.2` cas-core AST extension) and asymptotic
-layer (`hv0.9`) are now the next algorithmic siblings.
-**Bead state:** 5 of 12 children closed (`hv0.1`, `hv0.3`, `hv0.5`,
-`hv0.7`, `hv0.8`). New ADR-0022 pins the BigComplex-codomain quadrature
-shape (parallel named driver, mirroring the BF/float64 precedent —
-*not* a per-component split or a generic over a field record).
-**Next pickup:** **`hv0.2`** (cas-core special-function AST extension).
-Unblocks both `hv0.6` (symbolic dispatch) and `hv0.9` (asymptotic
-layer). Alternative algorithmic siblings: `hv0.4`
+**Phase:** `cas-core` special-function AST vocabulary extension shipped
+(Layer 1 — the `hv0.2` 27-head vocabulary table + arity contracts +
+diff-rule cascade). Both `hv0.6` (Adamchik–Marichev symbolic dispatch)
+and `hv0.9` (Braaksma asymptotic) are now algorithmically unblocked
+on the symbolic side.
+**Bead state:** 6 of 12 children closed (`hv0.1`, `hv0.2`, `hv0.3`,
+`hv0.5`, `hv0.7`, `hv0.8`). New ADR-0023 pins the closed-vocabulary
+shape (27 heads, exhaustive; differentiable subset of 15 with
+DLMF-cited rules; deferred subset refuses honestly via the existing
+boundary tag).
+**Next pickup:** **`hv0.6`** (Adamchik–Marichev + Roach symbolic
+dispatch) — the symbolic-reduction layer consuming the vocabulary
+just shipped, load-bearing for problem-13 Tiers A/B. Algorithmic
+sibling **`hv0.9`** (Braaksma asymptotic) is equally unblocked and
+is the right next pickup if the algorithmic mood is numerical
+rather than rule-table-curatorial. Or `hv0.4`
 (bench/hypergeometric-pfq tier-graded battery), or follow-up beads on
 the contour ceiling (~22 dps achievable; future bead can lift via
 wider cgamma Stirling budget) and asymmetric truncation refinement.
+
+Prior session header (2026-05-08, session 5): Mellin-Barnes contour
+layer shipped (Layer 5 — `hv0.8` contour orchestrator + BigComplex
+G7K15 driver). New ADR-0022 pins the BigComplex-codomain quadrature
+shape (parallel named driver, mirroring BF/float64 precedent).
 
 Prior session header (2026-05-08, session 4): arb-prec quadrature
 substrate shipped (Layer 4 — `hv0.7`). New ADR-0021 documents the
@@ -64,18 +74,22 @@ inputs deliver ~45-50 dps — comfortably within Tier C/D spec.
 
 ## ► YOUR NEXT TASK
 
-**Recommended:** **`hv0.2`** — cas-core special-function AST extension.
-The next prerequisite for both `hv0.6` (Adamchik-Marichev + Roach
-symbolic dispatch) and `hv0.9` (Braaksma asymptotic + hyperasymptotic
-layer); unblocks the most downstream work in the campaign DAG. The
-extension adds `BesselJ`, `BesselY`, `BesselI`, `BesselK`,
-`HypergeometricPFQ`, `WhittakerM`, `WhittakerW`, `ParabolicCylinderD`,
-`Erf`, `Erfc`, `ExpIntegralEi`, `Polylog`, `Gamma`, `Digamma`,
-`Polygamma`, `MeijerG` heads to the `cas-core` AST plus their `cas-diff`
-derivative rules — see `PLAN.md` Layer 1 for the full spec. Does *not*
-roll a new AST.
+**Recommended:** **`hv0.6`** — `packages/meijer-core` Adamchik–Marichev
++ Roach symbolic dispatch (Layer 4). The symbolic-reduction layer that
+matches MeijerG inputs against the ~1300-rule reduction table from
+Adamchik–Marichev 1990 ISSAC + Roach 1996/97 ISSAC, emitting closed
+forms over the elementary + special-function vocabulary just shipped
+in `hv0.2`. Load-bearing for problem-13 Tiers A/B (the symbolic-output
+tiers — Wolfram's Functions site is the canonical rule source). The
+substrate is `cas-simplify`'s pattern-matching engine extended with
+the new heads.
 
 Alternative algorithmic siblings:
+* **`hv0.9`** — `packages/meijer-core` Braaksma asymptotic +
+  hyperasymptotic (Layer 6). The asymptotic-expansion layer that
+  closes the `|z| → ∞` regime where Slater is exponentially divergent
+  and the contour quadrature loses precision. Equally unblocked
+  (depends only on `hv0.1` ✓ + `hv0.2` ✓).
 * **`hv0.4`** — bench/hypergeometric-pfq tier-graded battery
   (standalone validation surface for the inner-pFq path that Slater +
   asymptotic both use). No upstream dependencies beyond `hv0.3` ✓.
@@ -83,12 +97,18 @@ Alternative algorithmic siblings:
   ceiling (widen `cgamma`'s Stirling budget or compute the integrand
   via `clgamma` directly to avoid Γ-product cancellation), or to add
   asymmetric contour offset for non-real `arg(z)` cases.
+* **Follow-ups on `hv0.2`** — file beads to extend the differentiable
+  subset (Whittaker / ParabolicCylinder / Legendre / classical
+  orthogonals / LerchPhi diff rules) and to ship the per-head arbprec
+  `evalAt(args, prec)` evaluators referenced in Part 1 §2 of the 13b
+  brief that v0.1 deferred (most heads reduce to `pFq` via
+  `@workbench/hypergeometric` plus a Γ-prefactor — natural landing in
+  a new `packages/special-eval` package, or as additive extensions of
+  the existing per-head packages).
 
-(`hv0.8` shipped this session — see `scientist-workbench` worklog 073
-and ADR-0022. The contour layer covers the |z|=1 quarantine band where
-Slater refuses, with structured refusals for non-convergent contours
-`2(m+n) ≤ p+q` and overlapping pole clusters
-`max{Re(a_j)} − 1 ≥ min{Re(b_j)}`.)
+(`hv0.2` shipped this session — see `scientist-workbench` worklog 074
+and ADR-0023. 27-head closed vocabulary; differentiable subset of 15
+heads with DLMF-cited rules; deferred subset refuses honestly.)
 
 Below: the *original* hv0.5 brief, kept for reference now that the
 work is closed:
@@ -199,17 +219,17 @@ independently.
 | Bead | Title | Depends on |
 |------|-------|------------|
 | ~~4ne~~ | ~~bigfloat: `exp()` precision regression (P1)~~ — **closed as false alarm 2026-05-08, see `scientist-workbench` worklog 071** | — |
-| hv0.2 | cas-core: special-function AST vocabulary extension | hv0.1 ✓ |
-| hv0.6 | `packages/meijer-core`: Adamchik-Marichev + Roach symbolic dispatch | hv0.2 |
+| ~~hv0.2~~ | ~~cas-core: special-function AST vocabulary extension~~ — **closed 2026-05-08, ADR-0023, worklog 074** | hv0.1 ✓ |
+| hv0.6 | `packages/meijer-core`: Adamchik-Marichev + Roach symbolic dispatch | hv0.2 ✓ |
 | hv0.4 | `bench/hypergeometric-pfq`: tier-graded test battery | hv0.3 ✓ |
 | ~~hv0.7~~ | ~~`packages/quadrature` arb-prec generalisation of integrate-1d~~ — **closed 2026-05-08, ADR-0021** | hv0.1 ✓ |
 | ~~hv0.8~~ | ~~`packages/meijer-core`: Mellin-Barnes contour quadrature~~ — **closed 2026-05-08, ADR-0022, worklog 073** | hv0.7 ✓ |
-| hv0.9 | `packages/meijer-core`: Braaksma asymptotic + hyperasymptotic | hv0.1 ✓, hv0.2 |
+| hv0.9 | `packages/meijer-core`: Braaksma asymptotic + hyperasymptotic | hv0.1 ✓, hv0.2 ✓ |
 | hv0.10 | `tools/meijer-g`: top-level dispatcher | 5 ✓, 6, 8 ✓, 9 |
 | hv0.11 | `bench/meijer-g`: full golden master battery | hv0.10 |
 | hv0.12 | tstournament problem-13 staging | hv0.11 |
 
-**Unblocked next** (no open dependencies): hv0.2, hv0.4. (`4ne` closed as false alarm; `hv0.7` and `hv0.8` closed.)
+**Unblocked next** (no open dependencies): hv0.4, hv0.6, hv0.9. (`4ne` closed as false alarm; `hv0.2`, `hv0.7`, `hv0.8` closed.)
 
 ---
 
