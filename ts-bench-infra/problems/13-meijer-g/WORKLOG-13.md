@@ -5,25 +5,49 @@ Future-you (or the next agent) reads this *first* on session start.
 
 ---
 
-## ► WHERE WE ARE (last updated 2026-05-09, end of session 9)
+## ► WHERE WE ARE (last updated 2026-05-09, end of session 10)
 
-**Phase:** `bench/hypergeometric-pfq` tier-graded battery shipped
-(`hv0.4`). Validation surface for the inner pFq path that Slater +
-asymptotic + dispatcher all consume. 53 cases across 6 tiers
-(closed-form anchors, generic happy, large parameters,
-near-unit-circle, parameter coalescence, refusals); ~282 invariant
-assertions; mpmath at 80 dps + Wolfram at `precision + 30` dps
-cross-validated (49 of 49 numerical cases agree, 4 structural
-refusals); 5 mutation-prove RED tests. Per ADR-0019 bench
-discipline; sibling of `bench/linalg-{qr,svd,eigh}` and
-`bench/integrate-ode-*`. `bun run check` green.
+**Phase:** **`tools/meijer-g` top-level dispatcher shipped (Layer 7,
+`hv0.10`).** The climax of the seven-layer Meijer G stack. New
+ADR-0027 pins the design. Composes `meijergSymbolic` +
+`meijergSlater` + `meijergContour` + `meijergAsymptotic` from
+`@workbench/meijer-core` into a single integrated evaluator with
+**cost-ascending dispatch** (symbolic → Slater → contour →
+asymptotic → refuse), **honest refusal**, and **principal-branch
+convention pinned** (`arg z ∈ (−π, π]`, DLMF §16.17.1). Each lane
+has a fast pre-filter (`canUseSlater` / `canUseContour` /
+`canUseAsymptotic`) that decides "applicable here?" before any
+numerical work runs; the dispatch loop is a flat switch over four
+lanes with no bespoke per-layer envelope handling.
 
-Surfaced two follow-up beads worth filing: (1) P1 — compose
-`runWorkbench` doesn't merge ADR-0020's standard `--precision`
-flag for arbprec tools (the bench routes via `executeToolDef`
-directly as workaround); (2) P2 — analytic continuation for
-`|z| ≥ 0.99` to reclaim the famous `2F1(1, 1; 2; -1) = log 2`
-Abel-summation identity (currently in Tier E refusal).
+35 wire tests + 22 package-level dispatcher tests cover output-
+shape contract, cost-ascending priority, method-agreement (8
+cases force-method over Slater + asymptotic), pinned mpmath
+truths (3 cases), Schwarz reflection (5 cases), branch-cut
+behaviour (3 cases), refusal envelope (5 cases), bit-determinism
+(3 cases), `--schwarz-check` flag (2 cases). 20 goldens span
+every tier of the verifier. `bun test packages/meijer-core/`:
+162 pass, 0 fail. `bun test tools/meijer-g/`: 35 pass, 0 fail.
+
+Surfaced one follow-up: the contour layer's `pickTruncation` is
+cost-unbounded in the one-sided-cluster regime (`m = 0` or `n = 0`
+with `|z| ≥ 1`); the dispatcher's `canUseContour` predicate
+strengthens the layer's own check to refuse this regime upfront,
+so cost-ascending routes around. Filed as a contour-layer
+follow-up bead (cost-bound truncation cap).
+
+Prior session header (2026-05-09, session 9): `bench/hypergeometric-pfq`
+tier-graded battery shipped (`hv0.4`). Validation surface for the
+inner pFq path that Slater + asymptotic + dispatcher all consume.
+53 cases across 6 tiers; ~282 invariant assertions; mpmath at 80 dps
++ Wolfram at `precision + 30` dps cross-validated; 5 mutation-prove
+RED tests.
+
+Surfaced two follow-up beads: (1) P1 — compose `runWorkbench`
+doesn't merge ADR-0020's standard `--precision` flag for arbprec
+tools (workaround: `executeToolDef` directly); (2) P2 — analytic
+continuation for `|z| ≥ 0.99` to reclaim
+`2F1(1, 1; 2; -1) = log 2`.
 
 Prior session header (2026-05-09, session 8): Braaksma
 far-field asymptotic shipped (Layer 6 — `hv0.9` v0.1).
@@ -44,25 +68,29 @@ ADR-0026 pins the design. Layer-7 top-level dispatcher (`hv0.10`)
 is now **fully** unblocked — all four numerical paths (Slater,
 contour, asymptotic, plus the symbolic dispatcher) are in place.
 
-**Bead state:** 9 of 12 children closed (`hv0.1`, `hv0.2`,
-`hv0.3`, `hv0.4`, `hv0.5`, `hv0.6`, `hv0.7`, `hv0.8`, `hv0.9`).
-ADR-0026 pins the asymptotic v0.1 design.
+**Bead state:** 10 of 12 children closed (`hv0.1`, `hv0.2`,
+`hv0.3`, `hv0.4`, `hv0.5`, `hv0.6`, `hv0.7`, `hv0.8`, `hv0.9`,
+`hv0.10`). ADR-0026 pins the asymptotic v0.1 design; ADR-0027
+pins the top-level dispatcher.
 
-**Next pickup:** **`hv0.10`** (top-level `tools/meijer-g`
-dispatcher) — the integration layer that composes the four
-algorithmic layers into a single user-facing tool. The
-load-bearing test of the seven-layer stack: symbolic-first →
-Slater → contour → asymptotic-or-refuse. Every layer it depends
-on is now in place; the `bench/hypergeometric-pfq` validation
-surface from `hv0.4` is the discrimination floor for the
-dispatcher's pFq lane.
+**Next pickup:** **`hv0.11`** (golden battery + verifier
+integration). With Layer 7 shipped, the next step is to run the
+problem-13 verifier's full battery against `tools/meijer-g`,
+with all eight tiers (0/A/B/C/D/E/F/G/H) generating ~150 cases
+each via mpmath / Wolfram triple-witness. Every case lands in one
+of three honest output shapes (symbolic / numerical / refused);
+the verifier compares numerical outputs to oracle truths within
+`1e-(precision − 5)` (Tier C) or `1e-(precision − 8)` (Tier D/E),
+and refusal-class outputs against the expected refusal-tag.
 
-Alternative pickups: follow-up beads on the hv0.9 deferred
+Alternative pickups: follow-up beads on the `hv0.9` deferred
 pieces (`hv0.9.1`–`hv0.9.5`: full Braaksma theorem,
 hyperasymptotic, symmetric `|z| → 0`, secondary-sector handling),
 the contour ceiling (~22 dps; widen `cgamma` Stirling budget),
-or the `hv0.6.*` rule corpus follow-ups (PBM Vol 3, Mathai,
-Wolfram Functions Site).
+the contour cost-bound truncation cap (filed in this session),
+the `hv0.6.*` rule corpus follow-ups (PBM Vol 3, Mathai, Wolfram
+Functions Site), or the `lc1` runner-side `--precision` flag
+threading.
 
 Prior session header (2026-05-08, session 7): Adamchik-Marichev
 + Roach symbolic dispatch shipped (Layer 4 — `hv0.6`); ADR-0025.
@@ -119,21 +147,33 @@ inputs deliver ~45-50 dps — comfortably within Tier C/D spec.
 
 ## ► YOUR NEXT TASK
 
-**Recommended:** **`hv0.10`** — top-level `tools/meijer-g` dispatcher.
-Composes the four algorithmic layers (`hv0.5` Slater + `hv0.6`
-symbolic + `hv0.8` contour + `hv0.9` ✓ asymptotic) into a single
-user-facing tool: symbolic-first → Slater → contour →
-asymptotic-or-refuse. The integration test of the seven-layer stack;
-once it lands, problem-13 Tiers A/B (symbolic) and C/D/E (numerical
-non-coalescent / anti-Stokes / coalescent-b) all flow through one
-entry point. **Every layer it depends on is now shipped** —
-`meijergSlater`, `meijergSymbolic`, `meijergContour`, and
-`meijergAsymptotic` all expose mirrored result envelopes so the
-dispatcher's compose code is one switch statement. ~500-LOC
-orchestrator with routing rules + a thin wire wrapper. The
-`bench/hypergeometric-pfq` validation surface (`hv0.4` ✓) is the
-discrimination floor for the inner pFq path the dispatcher's Slater
-and asymptotic lanes consume.
+**Recommended:** **`hv0.11`** — `bench/meijer-g/` full golden
+battery. With `hv0.10` (`tools/meijer-g`) shipped, the next step is
+to run the problem-13 verifier against ~150 cases generated via
+mpmath / Wolfram triple-witness. Every case lands in one of three
+honest output shapes (symbolic AST / numerical record / tagged
+refusal); the verifier compares numerical outputs to oracle truths
+within `1e-(precision − 5)` (Tier C) or `1e-(precision − 8)`
+(Tier D/E), and refusal-class outputs against the expected
+refusal-tag.
+
+The shape of the battery (per `bench/hypergeometric-pfq` precedent
++ ADR-0019): tier-graded JSONL manifest, in-process compose
+runner, mpmath at 80 dps + Wolfram at 60 dps cross-validation,
+≥ 4 invariant checks per case (value, achieved-precision,
+method-class, warnings-shape), 5+ mutation-prove perturbations
+(perturb dispatcher pre-filter, perturb force-method routing,
+perturb branch-cut detection, perturb refusal envelope).
+
+Alternative pickups (algorithmic siblings):
+* **Follow-ups on `hv0.9`** — file beads `hv0.9.1`–`hv0.9.5` to
+  complete the Braaksma theorem.
+* **Follow-up on `hv0.10`** — contour-layer cost-bound truncation
+  cap (filed in worklog 079; the dispatcher pre-filter shadows
+  the issue today).
+* **`lc1` runner-side `--precision` flag wiring** — affects every
+  arbprec tool's CLI invocation; in-process callers via
+  `@workbench/compose` are unaffected.
 
 Alternative algorithmic siblings:
 * **Follow-ups on `hv0.9`** — file beads `hv0.9.1`–`hv0.9.5` to
@@ -280,13 +320,13 @@ independently.
 | ~~hv0.7~~ | ~~`packages/quadrature` arb-prec generalisation of integrate-1d~~ — **closed 2026-05-08, ADR-0021** | hv0.1 ✓ |
 | ~~hv0.8~~ | ~~`packages/meijer-core`: Mellin-Barnes contour quadrature~~ — **closed 2026-05-08, ADR-0022, worklog 073** | hv0.7 ✓ |
 | ~~hv0.9~~ | ~~`packages/meijer-core`: Braaksma asymptotic + hyperasymptotic~~ — **closed 2026-05-09 (v0.1: principal-sector algebraic only; full theorem follow-ups filed as `hv0.9.1`–`hv0.9.5`), ADR-0026, worklog 078** | hv0.1 ✓, hv0.2 ✓ |
-| hv0.10 | `tools/meijer-g`: top-level dispatcher | 5 ✓, 6 ✓, 8 ✓, 9 ✓ |
-| hv0.11 | `bench/meijer-g`: full golden master battery | hv0.10 |
+| ~~hv0.10~~ | ~~`tools/meijer-g`: top-level dispatcher~~ — **closed 2026-05-09 (climax of the seven-layer stack: cost-ascending dispatch, honest refusal, principal-branch convention pinned, Schwarz-reflection self-test), ADR-0027, worklog 079** | 5 ✓, 6 ✓, 8 ✓, 9 ✓ |
+| hv0.11 | `bench/meijer-g`: full golden master battery | hv0.10 ✓ |
 | hv0.12 | tstournament problem-13 staging | hv0.11 |
 
-**Unblocked next** (no open dependencies): hv0.4, hv0.10.
+**Unblocked next** (no open dependencies): hv0.4, **hv0.11**.
 (`4ne` closed as false alarm; `hv0.2`, `hv0.6`, `hv0.7`, `hv0.8`,
-`hv0.9` closed.)
+`hv0.9`, `hv0.10` closed.)
 
 ---
 
