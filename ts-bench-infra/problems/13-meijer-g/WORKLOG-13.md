@@ -5,9 +5,84 @@ Future-you (or the next agent) reads this *first* on session start.
 
 ---
 
-## ► WHERE WE ARE (last updated 2026-05-09, end of session 11)
+## ► WHERE WE ARE (last updated 2026-05-09, end of session 12)
 
-**Phase:** **`bench/meijer-g/` golden battery shipped (`hv0.11`).**
+**Phase:** **CAMPAIGN CLOSED. `hv0.12` shipped — tstournament-side
+problem-13 staging.** The Meijer G mega-test campaign is now
+end-to-end ready: the golden corpus is lifted into
+`problems/13-meijer-g/golden/`, the trial-runner
+`infra/verifiers/run_tests.sh` runs cleanly against it, and the
+in-tree `scientist-workbench` `tools/meijer-g/` (the reference
+candidate) earns 91/91 green via `golden/reference-candidate.sh`.
+The campaign's twelfth and final child closes here; the next step
+is staging a model trial (e.g. `test-13-pure-ts/solution.ts`).
+
+The `golden/` directory contents (per `golden/README.md`):
+
+  * `inputs.json` — 91 cases × 9 tiers. Lifted from the workbench
+    bench's `inputs.json`; same wire format (`{an, ap, bm, bq, z,
+    precision, request_mode}`).
+  * `expected.json` — pinned truths + `tolerance_rel` per case.
+    Two-oracle consensus (Wolfram + mpmath at 110 dps) for Tiers
+    A–F; Tier-0 anchors RHS-evaluated at 200 dps from the elementary
+    closed form; Tier G refusal envelopes.
+  * `verify.py` — three-output-category invariant verifier. Per case:
+    `no_tool_error`, `shape`, `method_admissible`, optional
+    `finite_value` / `self_reported_precision` / `value_accuracy`
+    (numerical), `symbolic_rule_present` + AST-evaluation
+    `value_accuracy` (symbolic), `boundary_envelope` (refusal). The
+    AST-evaluation witness is a tstournament-side improvement over
+    the workbench bench's v0.1 (which only checks rule-id presence);
+    a wrong-but-rule-id-matching symbolic candidate is now caught at
+    the value level. Multi-point K=20 random-z sampling per
+    `VERIFIER-PROTOCOL.md` §"symbolic check" remains a P2 follow-up.
+  * `tier-h.json` — 35-case cross-cutting speed-gate manifest.
+  * `generate.py` — Wolfram + mpmath consensus driver, lifted
+    from the workbench's `bench/meijer-g/reference/generate-truth.py`.
+    Re-running on a fresh box reproduces a byte-identical
+    `expected.json` modulo wolframscript / mpmath patch-version drift
+    (logged into `oracle-disagreements.log`).
+  * `test_mutations.py` — five mutation-prove tests; all RED on
+    perturbed candidates (sign-flip, shape-flip, tolerance-overshoot,
+    precision-overreport, method-flip).
+  * `reference-candidate.sh` — invokes the workbench's
+    `bench/meijer-g/run-candidate.ts` adapter, which dispatches to
+    `tools/meijer-g/` via `executeToolDef` in-process. The trial
+    agent's submission is NOT this script; this is purely for
+    self-testing the verifier wiring.
+
+**Reference-candidate verdict (sanity-test of the verifier):**
+
+```text
+running 91 cases through bash .../golden/reference-candidate.sh
+…
+Per-check summary:
+  shape                  88/88
+  method_admissible      88/88
+  value_accuracy_note    42/42
+  symbolic_rule_present  49/49
+  no_tool_error          91/91
+  self_reported_precision 39/39
+  finite_value           39/39
+  value_accuracy         44/44
+  boundary_envelope       3/3
+
+all 91 cases green
+```
+
+Per-tier counts: 0=36/36, A=9/9, B=8/8, C=15/15, D=8/8, E=5/5, F=7/7,
+G=3/3 (= 91 of 91). This matches `hv0.11`'s reported per-tier counts
+exactly; the +3 over the bead-spec's "88/91 honest passes" claim is
+that the 3 P1-bead-`fwsz` 3-pole-coalescence cases were already
+excluded from the corpus when `hv0.11` shipped — they never made it
+into `inputs.json`.
+
+Mutation-prove: 5/5 mutations correctly caught (sign-flip,
+shape-flip, tolerance-overshoot, precision-overreport, method-flip).
+Verifier discipline holds.
+
+Prior session header (2026-05-09, end of session 11):
+**`bench/meijer-g/` golden battery shipped (`hv0.11`).**
 The validation surface for `tools/meijer-g`'s cost-ascending
 dispatcher. 91 cases × ~5 invariant checks = ~434 invariant
 assertions across nine tiers (0/A/B/C/D/E/F/G + cross-cutting H);
@@ -363,12 +438,30 @@ independently.
 | ~~hv0.8~~ | ~~`packages/meijer-core`: Mellin-Barnes contour quadrature~~ — **closed 2026-05-08, ADR-0022, worklog 073** | hv0.7 ✓ |
 | ~~hv0.9~~ | ~~`packages/meijer-core`: Braaksma asymptotic + hyperasymptotic~~ — **closed 2026-05-09 (v0.1: principal-sector algebraic only; full theorem follow-ups filed as `hv0.9.1`–`hv0.9.5`), ADR-0026, worklog 078** | hv0.1 ✓, hv0.2 ✓ |
 | ~~hv0.10~~ | ~~`tools/meijer-g`: top-level dispatcher~~ — **closed 2026-05-09 (climax of the seven-layer stack: cost-ascending dispatch, honest refusal, principal-branch convention pinned, Schwarz-reflection self-test), ADR-0027, worklog 079** | 5 ✓, 6 ✓, 8 ✓, 9 ✓ |
-| hv0.11 | `bench/meijer-g`: full golden master battery | hv0.10 ✓ |
-| hv0.12 | tstournament problem-13 staging | hv0.11 |
+| ~~hv0.11~~ | ~~`bench/meijer-g`: full golden master battery~~ — **closed 2026-05-09 (session 11)** | hv0.10 ✓ |
+| ~~hv0.12~~ | ~~tstournament problem-13 staging~~ — **closed 2026-05-09 (session 12); golden corpus lifted, verifier wired, reference-candidate 91/91 green** | hv0.11 ✓ |
 
-**Unblocked next** (no open dependencies): hv0.4, **hv0.11**.
-(`4ne` closed as false alarm; `hv0.2`, `hv0.6`, `hv0.7`, `hv0.8`,
-`hv0.9`, `hv0.10` closed.)
+**Unblocked next** (no open dependencies): all twelve children
+closed. The campaign's substrate is settled. Next pickups (separate
+beads, file at session close):
+
+* **`test-13-pure-ts`** — stage a model trial sandbox at
+  `tstournament/test-13-pure-ts/` and run an Opus 4.7 (1M) baseline.
+* **AST-evaluation hardening** — multi-point K=20 random-z sampling
+  in `golden/verify.py` per `VERIFIER-PROTOCOL.md` §"symbolic check"
+  (v0.1 ships single-point only).
+* **Tier-H 200-LCG sweep** — generate the full 200 cases at fixed
+  seed; v0.1 ships a 35-case cross-cutting subset.
+* **Workbench-side P1s** that gate a clean model trial:
+  - `7usr` precision over-reporting in the dispatcher when Slater's
+    Johansson `hmag` perturbation runs (integer-spaced poles).
+  - `fwsz` 3+-pole integer-spaced coalescence hangs the dispatcher's
+    Slater path. Reinstating these cases in `inputs.json` is gated
+    on this fix.
+
+(Earlier-session bookkeeping: `4ne` closed as false alarm; `hv0.2`,
+`hv0.6`, `hv0.7`, `hv0.8`, `hv0.9`, `hv0.10`, `hv0.11`, `hv0.12`
+closed. The campaign is now end-to-end ready.)
 
 ---
 
