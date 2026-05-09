@@ -82,6 +82,49 @@ shape-flip, tolerance-overshoot, precision-overreport, method-flip).
 Verifier discipline holds.
 
 Prior session header (2026-05-09, end of session 11):
+**Meijer G dispatcher coalescence fixes shipped (`hv0.11.1`,
+session 13, 2026-05-09).** Beads `scientist-workbench-7usr` and
+`scientist-workbench-fwsz` (both P1) closed.
+
+  * **7usr (precision over-reporting).** When Johansson `hmag`
+    perturbation fires, the Slater orchestrator now runs a second
+    residue-summation pass at a minimally-different perturbation
+    magnitude (`pertBits + 1`, ε halved exactly once) and reports
+    `achievedPrecision = floor(−log10(|Δ|/|S|)) − 1`, capped at the
+    user-requested precision.  The 2-pole half-integer-spaced cases
+    that previously over-reported `50` now report 12-14 dps,
+    matching the actual relative error vs mpmath at 110 dps.  ADR-0027
+    §5 updated.
+
+  * **fwsz (3-pole hang).** The Slater orchestrator now (a) detects
+    integer-spacing equivalence-class clusters of size ≥ 3 upfront
+    and refuses with the structured class
+    `coalescence-needs-higher-order-residue`, and (b) caps the
+    cancellation-bump retry at `maxWorkingBits = 12·target_bits + 256`
+    with the structured class `coalescence-budget-exhausted`.
+    The dispatcher folds the higher-order-residue refusal into an
+    integrated `out-of-region` envelope (contour and asymptotic
+    inherit the same Γ-pole-cluster issue, so chasing them is
+    pointless).  3-pole reproducer terminates in ~12 ms now.
+    ADR-0027 §"refusal envelope" updated.
+
+Bench tier-E now 9/9 cases green (was 5/5 with 4 omitted).
+Reinstated: `tE-G3003-coalesce-012`, `tE-an-coalesce-1` (both as
+expected refusals), `tE-mixed-1`, `tE-near-coalesce-1` (both as
+numerical successes).
+
+Worklog: `docs/worklog/084-meijerg-coalescence-fixes.md`.
+
+The `n0wh` trial-runner sandbox (problem 13) is now unblocked: a
+clean model trial of `tools/meijer-g` no longer hits the over-
+reporting honesty violation or the 3-pole hang.
+
+Filed follow-up: closed-form Slater 1966 §5 higher-order residue
+(`digamma`/`polygamma`) for clusters of size ≥ 3 — the proper
+fix that lets the structured-refusal cases become numerical
+successes.
+
+Prior session header (2026-05-09, session 11):
 **`bench/meijer-g/` golden battery shipped (`hv0.11`).**
 The validation surface for `tools/meijer-g`'s cost-ascending
 dispatcher. 91 cases × ~5 invariant checks = ~434 invariant
